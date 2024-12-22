@@ -4,10 +4,10 @@ import "./featured.scss"
 const Featured = () => {
   return (
     <div className='featured'>
-        <div className="conatiner">
+        <div className="container">
              <div className="left">
                 <h1>
-                    Find the perfect freelance service for your business
+                    Find the perfect <i>freelance</i> service for your business
                 </h1>
                 <div className="search">
                     <div className="searchInput">
@@ -26,7 +26,7 @@ const Featured = () => {
                 </div>
              </div>
              <div className="right"></div>
-             <img src="./img/man.png" alt="" />
+             <img src="./img/man.png" alt=""/>
         </div>
     </div>
   )
