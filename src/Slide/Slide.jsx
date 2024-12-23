@@ -1,20 +1,25 @@
-import React from 'react'
-import "./Slide.scss"
+import React from 'react';
+import './Slide.scss';
 import Slider from 'infinite-react-carousel';
-import CatCard from "../catCard/CatCard";
-import { cards } from "../data";
-const Slide = () => {
+import { cards } from '../data';
+import CatCard from '../components/catCard/CatCard';
+
+const Slide = ({ slidesToShow, arrowsScroll, children  }) => {
   return (
     <div className='slide'>
-       <div className="container">
-       <Slider>
-        {cards.map(card=>(
-            <CatCard item={card} key={card.id}/>
-        ))}
-  </Slider>
-        </div> 
+      <div className='container'>
+        
+        <Slider slidesToShow={slidesToShow} arrowsScroll={arrowsScroll}>
+        {children}
+          {cards.map((card) => (
+            <CatCard item={card} key={card.id} />
+          ))}
+        </Slider>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Slide
+export default Slide;
+
+

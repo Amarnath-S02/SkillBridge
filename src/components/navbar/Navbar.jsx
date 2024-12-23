@@ -40,13 +40,13 @@ const Navbar = () => {
           <div className="links">
           <span >Business</span>
           <span>Explore</span>
-          <span>English</span>
+          <span>Blog</span>
           <span >Sign in</span>
           {!currentUser?.isSeller && <span>Become a Seller</span>}
           {!currentUser && <button>Join</button>}
           {currentUser && (
             <div className="user" onClick={()=>setOpen(!open)}>
-              <img src="" alt="User profile" />
+              <img src="/profile.png" alt="User profile" />
               <span>{currentUser?.username}</span>
              { open && <div className="options">
                 {currentUser?.isSeller&& (
