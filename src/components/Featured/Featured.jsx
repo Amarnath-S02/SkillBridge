@@ -12,16 +12,17 @@ const Featured = () => {
                 <div className="search">
                     <div className="searchInput">
                         <img src="./img/search.png" alt="" />
-                        <input type="text" placeholder='Try"building mobile app"'/>
+                        <input type="text" placeholder='Try"Building Mobile App"'/>
                     </div>
                     <button>Search</button>
                 </div>
                 <div className="popular">
                     <span>Popular:</span>
-                    <button>Web Design</button>
-                    <button>Wordpress</button>
-                    <button>Logo Design</button>
                     <button>Ai Services</button>
+                    <button>Video & Animation</button>
+                    <button>Graphics & Design</button>
+                    <button>Logo Design</button>
+                    
                     
                 </div>
              </div>
@@ -32,4 +33,4 @@ const Featured = () => {
   )
 }
 
-export default Featured
+export default Featured 
