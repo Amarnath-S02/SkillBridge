@@ -52,14 +52,14 @@ export const cards = [
   export const projects = [
     {
       id: 1,
-      img: "https://images.pexels.com/photos/1462935/pexels-photo-1462935.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600",
       pp: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1600",
       cat: "Web and Mobile Design",
       username: "Anna Bell",
     },
     {
       id: 2,
-      img: "https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "https://images.pexels.com/photos/1203777/pexels-photo-1203777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       pp: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1600",
       cat: "Logo Design",
       username: "Morton Green",
@@ -80,21 +80,21 @@ export const cards = [
     },
     {
       id: 5,
-      img: "https://images.pexels.com/photos/4458554/pexels-photo-4458554.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "https://img.freepik.com/free-photo/pile-3d-popular-social-media-logos_1379-881.jpg?t=st=1735222034~exp=1735225634~hmac=7f6402ce37783c81c795ae58a0ddbd41ab14a576d27859f342ed37b7d61ab2b3&w=1380",
       pp: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1600",
       cat: "Social Media Design",
       username: "Audrey Richards",
     },
     {
       id: 6,
-      img: "https://images.pexels.com/photos/4465831/pexels-photo-4465831.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       pp: "https://images.pexels.com/photos/1036627/pexels-photo-1036627.jpeg?auto=compress&cs=tinysrgb&w=1600",
       cat: "Illustration",
       username: "Dalton Hudson",
     },
     {
       id: 7,
-      img: "https://images.pexels.com/photos/6077368/pexels-photo-6077368.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "https://img.freepik.com/free-photo/artist-girl-painting-canvas-with-positive-energy_114579-32132.jpg?t=st=1735222080~exp=1735225680~hmac=3b96880f9d536ba8cf826b337a8904fcb5b0132dcf860a9454465ef467f00fac&w=1380",
       pp: "https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1600",
       cat: "Book Design",
       username: "Hannah Dougherty",
