@@ -3,6 +3,9 @@ import "./Gigs.scss";
 import { gigs } from "../../data";
 import GigCard from "../../components/gigCard/GigCard";
 
+
+// http://localhost:5173/gigs?cat=design
+
 const Gigs = () => {
   const [sort, setSort] = useState("sales");
   const [open, setOpen] = useState(false);
