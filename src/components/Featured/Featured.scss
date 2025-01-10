@@ -2,22 +2,29 @@
   height: 600px;
   display: flex;
   justify-content: center;
-  background-color: #013914;
+  align-items: center; /* Center content vertically */
+  background: linear-gradient(to right, #000957, #344CB7); /* Gradient from left to right */
   color: white;
 
   .container {
     width: 1400px;
     display: flex;
     align-items: center;
+    justify-content: center; /* Center content horizontally */
 
     .left {
       display: flex;
       flex-direction: column;
       gap: 30px;
+      align-items: center; /* Center all children in .left */
+      text-align: center; /* Ensure text is centered */
 
       h1 {
         font-size: 50px;
-        i{
+        font-weight: bold; /* Ensure it's visually impactful */
+        line-height: 1.2; /* Adjust spacing between lines for better readability */
+
+        i {
           font-weight: 300;
         }
       }
@@ -28,6 +35,9 @@
         justify-content: space-between;
         background-color: white;
         border-radius: 5px;
+        width: 70%; /* Slightly increase the length of the search bar */
+        max-width: 600px; /* Set a maximum width for responsiveness */
+        margin: 0 auto; /* Center the search bar within the parent */
 
         .searchInput {
           display: flex;
@@ -43,23 +53,27 @@
           input {
             border: none;
             outline: none;
+            width: 100%; /* Ensure the input takes the remaining space */
           }
         }
 
         button {
-          width: 120px;
-          height: 50px;
+          width: 100px; /* Adjust button size */
+          height: 50px; /* Maintain consistent height */
           border: none;
-          background-color: #1dbf73;
+          background-color: #3c99f0;
           color: white;
           cursor: pointer;
+          border-radius: 0 5px 5px 0; /* Rounded corners for a better design */
         }
       }
 
       .popular {
-          display: flex;
-          align-items: center;
-          gap: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center the popular buttons */
+        gap: 10px;
+
         span {
           font-weight: bold;
           margin-right: 10px;
@@ -75,8 +89,12 @@
           cursor: pointer;
 
           &:hover {
-            background-color: #1dbf73;
+            background-color:#3c99f0;;
             color: white;
+            font-weight: bold;
+            font-size: 13px; /* Slightly larger font size on hover */
+          /* Make text bold on hover */
+            transform: scale(1.0);
           }
         }
       }
@@ -84,6 +102,7 @@
 
     .right {
       height: 100%;
+
       img {
         height: 100%;
         max-width: 500px;
@@ -92,3 +111,15 @@
     }
   }
 }
+// import React from 'react';
+// import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
+// const App = () => {
+//   return (
+//     <DotLottieReact
+//       src=""
+//       loop
+//       autoplay
+//     />
+//   );
+// };

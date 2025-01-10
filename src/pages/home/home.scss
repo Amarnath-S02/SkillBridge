@@ -5,7 +5,7 @@
         justify-content: center;
         padding: 100px 0px;
         &.dark{
-            background-color: #0d084d;
+            background: linear-gradient(to right, #000957, #344CB7);
             h1{
                 color: white !important ;
             }
@@ -23,7 +23,7 @@
                 width: 100%;
             }
             button{
-                background-color: #1dbf73;
+                background-color: #1DBF73;
                 color: white;
                 padding: 10px 20px;
                 border-radius: 5px;

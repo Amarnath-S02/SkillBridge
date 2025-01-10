@@ -1,72 +1,95 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .footer {
-    display: flex;
-    justify-content: center;
-    color: #666;
-    margin: 50px 0px;
-  
-    img {
-      width: 24px;
-      height: 24px;
-    }
-  
-    .container {
-      width: 1400px;
-      .top {
+  margin-top: auto; /* Pushes the footer to the bottom */
+  display: flex;
+  justify-content: center;
+  color: #666;
+  padding: 20px 0; /* Add padding for spacing */
+  background-color: #f9f9f9;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .container {
+    width: 1400px;
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+
+      .item {
         display: flex;
-        justify-content: space-between;
-        .item {
+        flex-direction: column;
+        gap: 20px;
+
+        h2 {
+          font-size: 16px;
+          color: #555;
+        }
+
+        span {
           display: flex;
-          flex-direction: column;
-          gap: 20px;
-          h2 {
-            font-size: 16px;
-            color: #555;
-          }
-          span {
-            font-weight: 300;
+          align-items: center;
+          gap: 10px; /* Space between icon and text */
+          font-weight: 300;
+
+          img {
+            width: 20px;
+            height: 20px;
           }
         }
       }
-  
-      hr {
-        margin: 50px 0px;
-        height: 0;
-        border: 1px solid #ebe9e9;
-      }
-      .bottom {
+    }
+
+    hr {
+      margin: 20px 0; /* Adjusted margins for spacing */
+      height: 0;
+      border: 1px solid #ebe9e9;
+    }
+
+    .bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .left {
+        width: max-content;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-  
-        .left {
-          width: max-content;
-          display: flex;
-          align-items: center;
-          gap: 20px;
-  
-          span {
-            font-size: 13px;
-            white-space: nowrap;
-          }
+        gap: 20px;
+
+        span {
+          font-size: 13px;
+          white-space: nowrap;
         }
-        .right {
-          width: max-content;
+      }
+
+      .right {
+        width: max-content;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+
+        .social {
+          display: flex;
+          gap: 20px;
+        }
+
+        .link {
           display: flex;
           align-items: center;
-          gap: 30px;
-  
-          .social {
-            display: flex;
-            gap: 20px;
-          }
-  
-          .link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-          }
+          gap: 10px;
         }
       }
     }
   }
-  
+}
