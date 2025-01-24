@@ -35,7 +35,7 @@ const Navbar = () => {
             <Link to="/" className="link">
              <span className='text'>SkillBridge</span>
           </Link>
-            <span className='dot'>.</span>
+            <span className='dot'></span>
           </div>
           <div className="links">
           <span >Business</span>
@@ -51,8 +51,8 @@ const Navbar = () => {
              { open && <div className="options">
                 {currentUser?.isSeller&& (
                   <>
-                 <Link className="link" to="/mygigs">Gigs</Link>
-                 <Link className="link" to="/add">Add New Gigs</Link>
+                 <Link className="link" to="/mygigs">Services</Link>
+                 <Link className="link" to="/add">Add New Services</Link>
                   
                   </>
                 )}

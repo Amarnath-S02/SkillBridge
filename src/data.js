@@ -112,11 +112,11 @@ export const cards = [
     {
       id: 1,
       img: "https://images.pexels.com/photos/580151/pexels-photo-580151.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/720598/pexels-photo-720598.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      pp: "https://images.unsplash.com/photo-1596727147705-61a532a659bd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFydmVsfGVufDB8fDB8fHww",
       desc: "I will create ai art character from your images and prompts",
       price: 1000,
-      star: 5,
-      username: "Anna Bell",
+      star: 3,
+      username: "Amar",
     },
     {
       id: 2,
