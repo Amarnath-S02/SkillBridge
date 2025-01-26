@@ -10,7 +10,11 @@ const Gig = () => {
           <span className="breadcrumbs">SkillBridge > Graphics & Design ></span>
           <h1>I will create AI-generated art for you</h1>
           <div className="user">
-            <img  className="pp"src="https://images.unsplash.com/photo-1596727147705-61a532a659bd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFydmVsfGVufDB8fDB8fHww" alt="User" />
+            <img
+              className="pp"
+              src="https://images.unsplash.com/photo-1596727147705-61a532a659bd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFydmVsfGVufDB8fDB8fHww"
+              alt="User"
+            />
             <span>Amar</span>
             <div className="stars">
               <img src="/img/star.png" alt="Star" />
@@ -35,15 +39,20 @@ const Gig = () => {
           </Slider>
           <h2>About This Service</h2>
           <p>
-            Hi, I’m Amar, and I specialize in creating AI-generated art that brings imagination to life. Using cutting-edge
-            AI tools, I craft unique and stunning visuals tailored to your needs. Whether it’s abstract designs, digital
-            portraits, or surreal landscapes, my creations blend technology and creativity to produce art that’s both
-            innovative and captivating.
+            Hi, I’m Amar, and I specialize in creating AI-generated art that
+            brings imagination to life. Using cutting-edge AI tools, I craft
+            unique and stunning visuals tailored to your needs. Whether it’s
+            abstract designs, digital portraits, or surreal landscapes, my
+            creations blend technology and creativity to produce art that’s
+            both innovative and captivating.
           </p>
           <div className="seller">
             <h2>About The Seller</h2>
             <div className="user">
-              <img src="https://images.unsplash.com/photo-1596727147705-61a532a659bd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFydmVsfGVufDB8fDB8fHww" alt="User" />
+              <img
+                src="https://images.unsplash.com/photo-1596727147705-61a532a659bd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFydmVsfGVufDB8fDB8fHww"
+                alt="User"
+              />
               <div className="info">
                 <span>Amar</span>
                 <div className="stars">
@@ -80,8 +89,10 @@ const Gig = () => {
               </div>
               <hr />
               <p>
-                Hi, I'm Amar! I create unique AI-generated art that blends creativity and technology to bring your ideas to
-                life. From stunning visuals to custom designs, I deliver art that's innovative and one of a kind.
+                Hi, I'm Amar! I create unique AI-generated art that blends
+                creativity and technology to bring your ideas to life. From
+                stunning visuals to custom designs, I deliver art that's
+                innovative and one of a kind.
               </p>
             </div>
           </div>
@@ -89,7 +100,7 @@ const Gig = () => {
             <h2>Reviews</h2>
             <div className="item">
               <div className="user">
-                <img  className="pp"src="/img/Spiderman.jpeg" alt="User" />
+                <img className="pp" src="/img/Spiderman.jpeg" alt="User" />
                 <div className="info">
                   <span>user1</span>
                   <div className="country">
@@ -102,12 +113,12 @@ const Gig = () => {
                 <img src="/img/star.png" alt="Star" />
                 <img src="/img/star.png" alt="Star" />
                 <img src="/img/star.png" alt="Star" />
-                
                 <span>3</span>
               </div>
               <p>
-                "Amar is amazing! The AI-generated art he created was stunning and exactly what I wanted. Great communication
-                and quick delivery. Highly recommend!"
+                "Amar is amazing! The AI-generated art he created was stunning
+                and exactly what I wanted. Great communication and quick
+                delivery. Highly recommend!"
               </p>
               <div className="helpful">
                 <span>Helpful?</span>
@@ -120,7 +131,7 @@ const Gig = () => {
             <hr />
             <div className="item">
               <div className="user">
-                <img className="pp"src="/img/spiderman2.jpeg" alt="User" />
+                <img className="pp" src="/img/spiderman2.jpeg" alt="User" />
                 <div className="info">
                   <span>user2</span>
                   <div className="country">
@@ -137,8 +148,9 @@ const Gig = () => {
                 <span>4</span>
               </div>
               <p>
-                "Amar is amazing! The AI-generated art he created was stunning and exactly what I wanted. Great communication
-                and quick delivery. Highly recommend!"
+                "Amar is amazing! The AI-generated art he created was stunning
+                and exactly what I wanted. Great communication and quick
+                delivery. Highly recommend!"
               </p>
               <div className="helpful">
                 <span>Helpful?</span>
@@ -164,12 +176,12 @@ const Gig = () => {
                 <img src="/img/star.png" alt="Star" />
                 <img src="/img/star.png" alt="Star" />
                 <img src="/img/star.png" alt="Star" />
-                
                 <span>3</span>
               </div>
               <p>
-                "Amar is amazing! The AI-generated art he created was stunning and exactly what I wanted. Great communication
-                and quick delivery. Highly recommend!"
+                "Amar is amazing! The AI-generated art he created was stunning
+                and exactly what I wanted. Great communication and quick
+                delivery. Highly recommend!"
               </p>
               <div className="helpful">
                 <span>Helpful?</span>
@@ -181,7 +193,52 @@ const Gig = () => {
             </div>
           </div>
         </div>
-        <div className="right"></div>
+        <div className="right">
+          <div className="price">
+            <h3>1 AI-generated image</h3>
+            <h2>Rs 4000</h2>
+            
+          </div>
+          <p>
+              I will create a unique high-quality AI-generated image based on a
+              description that you give me.
+            </p>
+          <div className="details">
+            <div className="item">
+            <img src="/img/clock.png" alt="" />
+            <span>2 days Delivery</span>
+            </div>
+            <div className="item">
+            <img src="/img/recycle.png" alt="" />
+            <span>3 Revisions</span>
+            </div>
+          </div>
+          <div className="features">
+             <div className="item">
+              <img src="/img/check2.png" alt="" />
+              <span>Artwork delivery</span>
+             </div>
+             </div>
+             <div className="features">
+             <div className="item">
+              <img src="/img/check2.png" alt="" />
+              <span>image upscaling</span>
+             </div>
+             </div>
+             <div className="features">
+             <div className="item">
+              <img src="/img/check2.png" alt="" />
+              <span>prompt writing</span>
+             </div>
+           </div>
+           <div className="features">
+             <div className="item">
+              <img src="/img/check2.png" alt="" />
+              <span>prompt writing</span>
+             </div>
+           </div>
+          <button>Continue</button>
+        </div>
       </div>
     </div>
   );

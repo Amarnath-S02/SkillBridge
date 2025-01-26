@@ -63,31 +63,33 @@ const Home = () => {
       </div>
       <div className="features dark">
   <div className="container">
-    <div className="item">
-      <h1>
-        SkillBridge <i> Business</i>
-      </h1>
-      <h1>
-        A business solution designed for <i> teams</i>
-      </h1>
-      <p>
-        Enhance your workflow with a personalized set of tools and perks designed for businesses
-      </p>
-      <div className="title">
-        <img src="./img/check3.png" alt="" />
-        Connect with freelancers who have a proven track record in business
-      </div>
+    <div className="item text-box">
+      <div className="text-content">
+        <h1>
+          SkillBridge <i> Business</i>
+        </h1>
+        <h1>
+          A business solution designed for <i> teams</i>
+        </h1>
+        <p>
+          Enhance your workflow with a personalized set of tools and perks designed for businesses
+        </p>
+        <div className="title">
+          <img src="./img/check3.png" alt="" />
+          Connect with freelancers who have a proven track record in business
+        </div>
 
-      <div className="title">
-        <img src="./img/check3.png" alt="" />
-        Receive expert recommendations for the best talent from a customer success manager
-      </div>
+        <div className="title">
+          <img src="./img/check3.png" alt="" />
+          Receive expert recommendations for the best talent from a customer success manager
+        </div>
 
-      <div className="title">
-        <img src="./img/check3.png" alt="" />
-        Streamline collaboration and maximize efficiency within a single unified workspace
+        <div className="title">
+          <img src="./img/check3.png" alt="" />
+          Streamline collaboration and maximize efficiency within a single unified workspace
+        </div>
+        <button>Explore Business</button>
       </div>
-      <button>Explore Business</button>
     </div>
     <div className="item">
       <img
