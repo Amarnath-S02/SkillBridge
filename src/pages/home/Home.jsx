@@ -1,27 +1,28 @@
-import React from 'react';
-import"./home.scss"
-import Featured from '../../components/Featured/Featured';
-import TrustedBy from '../../components/trustedBy/TrustedBy';
-import Slide from '../../Slide/Slide';
-import { cards } from  "../../data";
-import { projects } from "../../data";
-
-import CatCard from '../../components/catCard/CatCard';
-import ProjectCard from '../../components/projectCard2/ProjectCard';
+import React from "react";
+import "./home.scss";
+import Featured from "../../components/Featured/Featured";
+import TrustedBy from "../../components/trustedBy/TrustedBy";
+import Slide from "../../Slide/Slide";
+import { cards, projects } from "../../data";
+import CatCard from "../../components/catCard/CatCard";
+import ProjectCard from "../../components/projectCard2/ProjectCard";
 
 const Home = () => {
+  return (
+    <div className="home">
+      <Featured />
+      <TrustedBy />
 
-  return <div className='home'>
-      <Featured/>
-      <TrustedBy/>
+      {/* Top Cards Slider */}
       <Slide slidesToShow={5} arrowsScroll={3}>
-        {cards.map(card=>(
-          <CatCard key={card.id} item={card}/>
+        {cards.map((card) => (
+          <CatCard key={card.id} item={card} />
         ))}
-        </Slide>
-        <div className="features">
-          <div className="container">
-            <div className="item">
+      </Slide>
+
+      <div className="features">
+        <div className="container">
+          <div className="item">
             <h1>A whole world of freelance at your fingertips</h1>
             <div className="title">
               <img src="./img/check2.png" alt="" />
@@ -61,53 +62,52 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      {/* Dark Features Section */}
       <div className="features dark">
-  <div className="container">
-    <div className="item text-box">
-      <div className="text-content">
-        <h1>
-          SkillBridge <i> Business</i>
-        </h1>
-        <h1>
-          A business solution designed for <i> teams</i>
-        </h1>
-        <p>
-          Enhance your workflow with a personalized set of tools and perks designed for businesses
-        </p>
-        <div className="title">
-          <img src="./img/check3.png" alt="" />
-          Connect with freelancers who have a proven track record in business
+        <div className="container">
+          <div className="item text-box">
+            <div className="text-content">
+              <h1>
+                SkillBridge <i> Business</i>
+              </h1>
+              <h1>Empower Your Team with Tailored Solutions</h1>
+              <p>
+                Transform the way your business collaborates and innovates with
+                SkillBridge's premium business tools.
+              </p>
+              <div className="title">
+                <img src="./img/check3.png" alt="" />
+                Connect with verified experts who specialize in your industry's
+                unique needs.
+              </div>
+              <div className="title">
+                <img src="./img/check3.png" alt="" />
+                Work alongside a business consultant to find the perfect
+                freelancers for your projects.
+              </div>
+              <div className="title">
+                <img src="./img/check3.png" alt="" />
+                Manage projects, track progress, and communicate effectively in
+                one centralized workspace.
+              </div>
+              <button>Explore Business</button>
+            </div>
+          </div>
+          <div className="item">
+            <img src="./img/homepage.png" alt="" />
+          </div>
         </div>
-
-        <div className="title">
-          <img src="./img/check3.png" alt="" />
-          Receive expert recommendations for the best talent from a customer success manager
-        </div>
-
-        <div className="title">
-          <img src="./img/check3.png" alt="" />
-          Streamline collaboration and maximize efficiency within a single unified workspace
-        </div>
-        <button>Explore Business</button>
       </div>
-    </div>
-    <div className="item">
-      <img
-        src="https://fiverr-res.cloudinary.com/q_auto,f_auto,w_870,dpr_2.0/v1/attachments/generic_asset/asset/d9c17ceebda44764b591a8074a898e63-1599597624768/business-desktop-870-x2.png"
-        alt=""
-      />
-    </div>
-  </div>
-</div>
-<Slide slidesToShow={4} arrowsScroll={4}>
-        {projects.map(card=>(
-          <ProjectCard key={card.id} item={card}/>
+
+      {/* Bottom Projects Slider
+      <Slide slidesToShow={4} arrowsScroll={4}>
+        {projects.map((project) => (
+          <ProjectCard key={project.id} item={project} />
         ))}
-        </Slide>
-
-
-  </div>;
-  
+      </Slide> */}
+    </div>
+  );
 };
 
-export default Home
+export default Home;

@@ -73,13 +73,13 @@ function Footer() {
           {/* Right Section */}
           <div className="right">
             {/* Social Media */}
-            <div className="social">
+            {/* <div className="social">
               <img src="/img/twitter.png" alt="Twitter Icon" />
               <img src="/img/facebook.png" alt="Facebook Icon" />
               <img src="/img/linkedin.png" alt="LinkedIn Icon" />
               <img src="/img/pinterest.png" alt="Pinterest Icon" />
               <img src="/img/instagram.png" alt="Instagram Icon" />
-            </div>
+            </div> */}
 
             {/* Currency */}
             <div className="link">
