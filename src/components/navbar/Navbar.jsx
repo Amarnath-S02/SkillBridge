@@ -69,7 +69,7 @@ const Navbar = () => {
         </div>
        { (active || pathname !=="/")&& (
         <> 
-          <hr  />
+          <hr/>
           <div className="menu">
           <Link className="link menulink" to="/">Graphics & Design</Link>
         
@@ -84,6 +84,7 @@ const Navbar = () => {
         <Link className="link " to="/lifestyle">Lifestyle</Link>
 
           </div>
+          <hr/>
        </> 
         )}
       </div>

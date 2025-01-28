@@ -212,6 +212,20 @@
       }
   
       .right {
+        
+          // flex: none; /* Remove automatic flex-based sizing */
+          // width: 350px; /* Set desired width */
+          // height: 380px; /* Set desired height */
+          // border: 1px solid lightgray;
+          // padding: 20px;
+          // border-radius: 5px;
+          // display: flex;
+          // flex-direction: column;
+          // gap: 20px;
+          // position: sticky;
+          // top: 150px;
+      
+      
         flex: 1;
         border: 1px solid lightgray;
         padding: 20px;
@@ -222,7 +236,7 @@
         position: sticky;
         top: 150px;
         height: max-content;
-        min-height: 400px;
+        min-height: 350px;
       
         .price {
           display: flex;
@@ -280,11 +294,11 @@
         }
       
         button {
-          background-color: #3c99f0;
+          background-color:royalblue;
           padding: 10px;
           color: white;
           font-weight: 500;
-          font-size: 18px;
+          font-size: 14px;
           cursor: pointer;
           border: none;
           

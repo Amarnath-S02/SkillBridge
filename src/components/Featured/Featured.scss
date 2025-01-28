@@ -61,7 +61,7 @@
           width: 100px; /* Adjust button size */
           height: 50px; /* Maintain consistent height */
           border: none;
-          background-color: #3c99f0;
+          background-color:royalblue;
           color: white;
           cursor: pointer;
           border-radius: 0 5px 5px 0; /* Rounded corners for a better design */
@@ -89,7 +89,7 @@
           cursor: pointer;
 
           &:hover {
-            background-color:#3c99f0;;
+            background-color:royalblue;
             color: white;
             font-weight: bold;
             font-size: 13px; /* Slightly larger font size on hover */

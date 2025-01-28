@@ -4,7 +4,7 @@ import './CatCard.scss';
 
 const CatCard = ({ item }) => {
   return (
-    <Link to={`/gig?cat=${item.category}`}>
+    <Link to={`/gigs?cat=${item.category}`}>
       <div className="catCard">
         <img src={item.img} alt={item.title} />
         <span className="desc">{item.desc}</span>

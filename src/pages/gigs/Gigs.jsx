@@ -1,18 +1,22 @@
-import React, { useState } from "react"; // Import useState
+import React, { useState, useRef } from "react"; // Add useRef here
 import "./Gigs.scss";
 import { gigs } from "../../data";
 import GigCard from "../../components/gigCard/GigCard";
 
-
-// http://localhost:5173/gigs?cat=design
-
 const Gigs = () => {
   const [sort, setSort] = useState("sales");
   const [open, setOpen] = useState(false);
+  const minRef = useRef(); // Correct usage of useRef
+  const maxRef = useRef(); // Correct usage of useRef
 
   const reSort = (type) => {
     setSort(type);
     setOpen(false);
+  };
+
+  const apply = () => {
+    console.log(minRef.current.value);
+    console.log(maxRef.current.value);
   };
 
   return (
@@ -27,9 +31,9 @@ const Gigs = () => {
         <div className="menu">
           <div className="left">
             <span>Budget</span>
-            <input type="text" placeholder="min" />
-            <input type="text" placeholder="max" />
-            <button>Apply</button>
+            <input ref={minRef} type="number" placeholder="min" />
+            <input ref={maxRef} type="number" placeholder="max" />
+            <button onClick={apply}>Apply</button>
           </div>
           <div className="right">
             <span className="sortBy">Sort By</span>
@@ -48,12 +52,13 @@ const Gigs = () => {
                 ) : (
                   <span onClick={() => reSort("sales")}>Best Selling</span>
                 )}
+                
               </div>
             )}
           </div>
         </div>
         <div className="cards">
-          {gigs.map(gig => (
+          {gigs.map((gig) => (
             <GigCard key={gig.id} item={gig} />
           ))}
         </div>
