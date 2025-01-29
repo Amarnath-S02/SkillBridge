@@ -17,8 +17,7 @@ SkillBridge** is a freelancer platform connecting clients with skilled professio
 Frontend: React.js ⚛️  
 Backend: Run 🚀  
 Database: MongoDB 🍃  
-Authentication: JWT 🔑  
-Payment Gateway: Stripe 💰  
+  
 
 
 
