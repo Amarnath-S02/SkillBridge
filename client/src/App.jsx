@@ -9,13 +9,21 @@ import MyGigs from "./pages/mygigs/MyGigs";
 import Add from "./pages/add/Add";
 import Message from "./pages/message/Message";
 import Messages from "./pages/messages/Messages";
-import "./app.scss"
+import Login from "./pages/login/Login";
+import "./app.scss";
 
 import {
   createBrowserRouter,
   RouterProvider,
   Outlet,
 } from "react-router-dom";
+
+
+// import {
+//   createBrowserRouter,
+//   RouterProvider,
+//   Outlet,
+// } from "react-router-dom";
 
 function App() {
   const Layout = () => {
@@ -64,7 +72,10 @@ function App() {
           path: "/message/:id",
           element: <Message />,
         },
-       
+        {
+          path: "/login",
+          element: <Login />,
+        }, 
       ]
     },
   ]);
