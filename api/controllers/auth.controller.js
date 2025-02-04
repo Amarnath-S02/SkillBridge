@@ -66,15 +66,18 @@ export const login = async (req, res,next) => {
 
 
 export const logout = async (req, res) => {
-    res.clearCookie("accessToken",{
-       sameSites:"none" ,
-       secure:true,
-    }).status(200).send("User have been logged out.");
-    // try {
-    //     res.send("from controller");
-    // } catch (error) {
-    //     res.status(400).send("something went wrong");
-    // }
+    try {
+        res.clearCookie("accessToken", {
+            sameSite: "None",  // ✅ Correct property name
+            secure: process.env.NODE_ENV === "production", // ✅ Secure only in production
+            httpOnly: true,  // ✅ Ensure cookie is httpOnly if required
+        });
+
+        return res.status(200).json({ message: "User has been logged out." });
+    } catch (error) {
+        return res.status(500).json({ error: "Something went wrong." });
+    }
 };
+
 
 

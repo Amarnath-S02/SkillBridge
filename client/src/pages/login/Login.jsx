@@ -1,26 +1,28 @@
 import React, { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Eye icons
-import "./Login.scss"; // Import SCSS file
-import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import "./Login.scss"; 
 import { useNavigate } from "react-router-dom";
+import newRequest from "../../utils/newRequest";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null); // Added error state
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/login", {
+      const res = await newRequest.post("/auth/login", {
         username,
         password,
       });
-      console.log(res.data);
+      localStorage.setItem("currentUser", JSON.stringify(res.data));
+      navigate("/");
     } catch (err) {
-      console.log(err);
+      setError(err.response?.data || "Something went wrong");
     }
   };
 
@@ -36,6 +38,7 @@ function Login() {
             placeholder="Enter your username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
         </div>
 
@@ -46,15 +49,18 @@ function Login() {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
 
-        <a href="#">Forgot password?</a>
+        <a href="/forgot-password">Forgot password?</a>
 
         <button type="submit">Continue</button>
+        
+        {error && <p className="error">{error}</p>}
       </form>
     </div>
   );
