@@ -7,10 +7,17 @@ import Gig from "./pages/gig/Gig";
 import Orders from "./pages/orders/Orders";
 import MyGigs from "./pages/mygigs/MyGigs";
 import Add from "./pages/add/Add";
+import Register from "./pages/register/Register";
 import Message from "./pages/message/Message";
 import Messages from "./pages/messages/Messages";
 import Login from "./pages/login/Login";
 import "./app.scss";
+
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
 
 import {
   createBrowserRouter,
@@ -19,19 +26,22 @@ import {
 } from "react-router-dom";
 
 
-// import {
-//   createBrowserRouter,
-//   RouterProvider,
-//   Outlet,
-// } from "react-router-dom";
 
 function App() {
+
+  const queryClient = new QueryClient()
+
+
   const Layout = () => {
     return (
       <div className="app">
+         <QueryClientProvider client={queryClient}>
+
+       
         <Navbar />
         <Outlet />
         <Footer />
+        </QueryClientProvider>
       </div>
     );
   };
@@ -76,6 +86,10 @@ function App() {
           path: "/login",
           element: <Login />,
         }, 
+        {
+          path: "/register",
+          element: <Register />,
+        },
       ]
     },
   ]);

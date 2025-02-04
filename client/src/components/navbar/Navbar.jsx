@@ -39,9 +39,9 @@ function Navbar() {
       <div className="container">
         <div className="logo">
           <Link className="link" to="/">
-            <span className="text">fiverr</span>
+            <span className="text"><i>SkillBrdige</i></span>
           </Link>
-          <span className="dot">.</span>
+          <span className="dot"></span>
         </div>
         <div className="links">
           <span>Business</span>
@@ -89,35 +89,36 @@ function Navbar() {
       {(active || pathname !== "/") && (
         <>
           <hr />
-          <div className="menu">
-            <Link className="link menuLink" to="/">
-              Graphics & Design
-            </Link>
-            <Link className="link menuLink" to="/">
-              Video & Animation
-            </Link>
-            <Link className="link menuLink" to="/">
-              Writing & Translation
-            </Link>
-            <Link className="link menuLink" to="/">
-              AI Services
-            </Link>
-            <Link className="link menuLink" to="/">
-              Digital Marketing
-            </Link>
-            <Link className="link menuLink" to="/">
-              Music & Audio
-            </Link>
-            <Link className="link menuLink" to="/">
-              Programming & Tech
-            </Link>
-            <Link className="link menuLink" to="/">
-              Business
-            </Link>
-            <Link className="link menuLink" to="/">
-              Lifestyle
-            </Link>
-          </div>
+                      <div className="menu">
+              <Link className="link menuLink" to="/">
+                <i>Graphics & Design</i>
+              </Link>
+              <Link className="link menuLink" to="/">
+                <i>Video & Animation</i>
+              </Link>
+              <Link className="link menuLink" to="/">
+                <i>Writing & Translation</i>
+              </Link>
+              <Link className="link menuLink" to="/">
+                <i>AI Services</i>
+              </Link>
+              <Link className="link menuLink" to="/">
+                <i>Digital Marketing</i>
+              </Link>
+              <Link className="link menuLink" to="/">
+                <i>Music & Audio</i>
+              </Link>
+              <Link className="link menuLink" to="/">
+                <i>Programming & Tech</i>
+              </Link>
+              <Link className="link menuLink" to="/">
+                <i>Business</i>
+              </Link>
+              <Link className="link menuLink" to="/">
+                <i>Lifestyle</i>
+              </Link>
+            </div>
+
           <hr />
         </>
       )}
