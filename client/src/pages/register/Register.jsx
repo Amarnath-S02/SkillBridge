@@ -70,7 +70,7 @@ function Register() {
           <input
             name="country"
             type="text"
-            placeholder="Usa"
+            placeholder="India"
             onChange={handleChange}
           />
           <button type="submit">Register</button>
@@ -88,7 +88,7 @@ function Register() {
           <input
             name="phone"
             type="text"
-            placeholder="+1 234 567 89"
+            placeholder=""
             onChange={handleChange}
           />
           <label htmlFor="">Description</label>

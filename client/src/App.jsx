@@ -83,13 +83,14 @@ function App() {
           element: <Message />,
         },
         {
-          path: "/login",
-          element: <Login />,
-        }, 
-        {
           path: "/register",
           element: <Register />,
         },
+        {
+          path: "/login",
+          element: <Login />,
+        }, 
+      
       ]
     },
   ]);

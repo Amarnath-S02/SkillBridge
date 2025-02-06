@@ -13,17 +13,22 @@ function Gigs() {
 
   const { search } = useLocation();
 
-  const { isLoading, error, data, refetch } = useQuery({
-    queryKey: ["gigs"],
-    queryFn: () =>
-      newRequest
-        .get(
-          `/gigs${search}&min=${minRef.current.value}&max=${maxRef.current.value}&sort=${sort}`
-        )
-        .then((res) => {
-          return res.data;
-        }),
-  });
+const { isLoading, error, data, refetch } = useQuery({
+  queryKey: ["gigs", search, sort], // Include search and sort in the query key
+  queryFn: () => {
+    const params = new URLSearchParams(search); // Preserve existing query params
+
+    if (minRef.current?.value) params.append("min", minRef.current.value);
+    if (maxRef.current?.value) params.append("max", maxRef.current.value);
+    params.append("sort", sort);
+
+    const apiUrl = `/gigs?${params.toString()}`;
+    console.log("Fetching gigs from:", apiUrl); // Debugging log
+
+    return newRequest.get(apiUrl).then((res) => res.data);
+  },
+});
+
 
   console.log(data);
 
@@ -43,7 +48,7 @@ function Gigs() {
   return (
     <div className="gigs">
       <div className="container">
-        <span className="breadcrumbs">Liverr > Graphics & Design ></span>
+        <span className="breadcrumbs">SkillBridge> Graphics & Design ></span>
         <h1>AI Artists</h1>
         <p>
           Explore the boundaries of art and technology with Liverr's AI artists

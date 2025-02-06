@@ -6,7 +6,7 @@ import newRequest from "../../utils/newRequest";
 
 const GigCard = ({ item }) => {
   const { isLoading, error, data } = useQuery({
-    queryKey: [item.userId],
+    queryKey: ["gigUser"],
     queryFn: () =>
       newRequest.get(`/users/${item.userId}`).then((res) => {
         return res.data;
@@ -25,6 +25,8 @@ const GigCard = ({ item }) => {
             <div className="user">
               <img src={data.img || "/img/noavatar.jpg"} alt="" />
               <span>{data.username}</span>
+              <span>{!isNaN(item.totalStars/item.starNumber)&&
+              Math.round(item.totalStars/item.starNumber)}</span>
             </div>
           )}
           <p>{item.desc}</p>
@@ -41,7 +43,7 @@ const GigCard = ({ item }) => {
           <img src="./img/heart.png" alt="" />
           <div className="price">
             <span>STARTING AT</span>
-            <h2><i>Rs</i> {item.price}</h2>
+            <h2>$ {item.price}</h2>
           </div>
         </div>
       </div>

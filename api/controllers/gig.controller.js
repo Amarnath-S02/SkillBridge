@@ -39,21 +39,24 @@ export const getGig = async (req, res, next) => {
   }
 };
 export const getGigs = async (req, res, next) => {
-  const q = req.query;
-  const filters = {
-    ...(q.userId && { userId: q.userId }),
-    ...(q.cat && { cat: q.cat }),
-    ...((q.min || q.max) && {
-      price: {
-        ...(q.min && { $gt: q.min }),
-        ...(q.max && { $lt: q.max }),
-      },
-    }),
-    ...(q.search && { title: { $regex: q.search, $options: "i" } }),
-  };
   try {
-    // const gigs = await Gig.find(filters).sort({ [q.sort]: -1 });
-    // res.status(200).send(gigs);
+    const q = req.query;
+    const filters = {
+      ...(q.userId && { userId: q.userId }),
+      ...(q.cat && { cat: q.cat }),
+      ...((q.min || q.max) && { 
+        price: { 
+          ...(q.min && { $gte: Number(q.min) }), // Include min
+          ...(q.max && { $lte: Number(q.max) })  // Include max
+        } 
+      }),
+      ...(q.search && { title: { $regex: q.search, $options: "i" } }),
+    };
+
+    const sortOption = q.sort ? { [q.sort]: -1 } : { createdAt: -1 }; // Default sorting by createdAt
+
+    const gigs = await Gig.find(filters).sort(sortOption);
+    res.status(200).json(gigs);
   } catch (err) {
     next(err);
   }
