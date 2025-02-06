@@ -48,14 +48,19 @@ const { isLoading, error, data, refetch } = useQuery({
   return (
     <div className="gigs">
       <div className="container">
+<<<<<<< HEAD
         <span className="breadcrumbs">SkillBridge> Graphics & Design ></span>
+=======
+        <span className="breadcrumbs"> SkillBridge> Graphics & Design ></span>
+>>>>>>> 5d4661676736fe9912948470f4f58921532905b2
         <h1>AI Artists</h1>
         <p>
           Explore the boundaries of art and technology with Liverr's AI artists
         </p>
         <div className="menu">
           <div className="left">
-            <span>Budget</span>
+            <span>Budget</span>   
+            
             <input ref={minRef} type="number" placeholder="min" />
             <input ref={maxRef} type="number" placeholder="max" />
             <button onClick={apply}>Apply</button>
