@@ -48,11 +48,8 @@ const { isLoading, error, data, refetch } = useQuery({
   return (
     <div className="gigs">
       <div className="container">
-<<<<<<< HEAD
-        <span className="breadcrumbs">SkillBridge> Graphics & Design ></span>
-=======
-        <span className="breadcrumbs"> SkillBridge> Graphics & Design ></span>
->>>>>>> 5d4661676736fe9912948470f4f58921532905b2
+     <span className="breadcrumbs"> SkillBridge> Graphics & Design ></span>
+
         <h1>AI Artists</h1>
         <p>
           Explore the boundaries of art and technology with Liverr's AI artists
