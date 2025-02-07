@@ -1,6 +1,14 @@
 import express from "express";
-import { deleteUser} from "../controllers/user.controller.js";
-const router=express.Router();
+import { verifyToken } from "../middleware/jwt.js";
+import { getOrders, createOrder } from "../controllers/order.controller.js";
+ 
 
-router.get("/test",deleteUser)
+
+const router = express.Router();
+
+
+router.post("/:gigId", verifyToken, createOrder);  // <-- This should exist
+router.get("/", verifyToken, getOrders);
+
+
 export default router;

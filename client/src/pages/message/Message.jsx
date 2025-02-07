@@ -1,58 +1,69 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import "./message.scss";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
+import newRequest from "../../utils/newRequest";
+import "./Message.scss";
 
 const Message = () => {
+  const { id } = useParams();
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  const queryClient = useQueryClient();
+
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["messages"],
+    queryFn: () =>
+      newRequest.get(`/messages/${id}`).then((res) => {
+        return res.data;
+      }),
+  });
+
+  const mutation = useMutation({
+    mutationFn: (message) => {
+      return newRequest.post(`/messages`, message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["messages"]);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate({
+      conversationId: id,
+      desc: e.target[0].value,
+    });
+    e.target[0].value = "";
+  };
+
   return (
     <div className="message">
       <div className="container">
         <span className="breadcrumbs">
-          <Link to="/messages">Messages</Link> > Prakash >
+          <Link to="/messages">Messages</Link> {`>>`}
         </span>
-        <div className="messages">
-          <div className="item">
-            <img src="/img/edison.jpeg" alt="" />
-            <p>
-              Hi, I’m looking for someone to help me develop a mobile app for my business.
-            </p>
+        {isLoading ? (
+          "loading"
+        ) : error ? (
+          "error"
+        ) : (
+          <div className="messages">
+            {data.map((m) => (
+              <div className={m.userId === currentUser._id ? "owner item" : "item"} key={m._id}>
+                <img
+                  src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                  alt=""
+                />
+                <p>{m.desc}</p>
+              </div>
+            ))}
           </div>
-          <div className="item owner">
-            <img src="/img/leo.jpeg" alt="" />
-            <p>
-              Sure! I can help. Could you share more details about the app you need?
-            </p>
-          </div>
-          <div className="item">
-            <img src="/img/edison.jpeg" alt="" />
-            <p>
-              It’s for a fitness studio. I need class schedules, bookings, and payments.
-            </p>
-          </div>
-          <div className="item owner">
-            <img src="/img/leo.jpeg" alt="" />
-            <p>
-              Got it. Do you have a design preference or a deadline for this project?
-            </p>
-          </div>
-          <div className="item">
-            <img src="/img/edison.jpeg" alt="" />
-            <p>
-            I’d like it to look sleek and modern, and I’d need it ready within a month. 
-            </p>
-          </div>
-          <div className="item owner">
-            <img src="/img/leo.jpeg" alt="" />
-            <p>
-            Absolutely, I can work with that timeline. Do you have a color scheme or branding in mind that we should align with the design? Also, would you like the app to support both iOS and Android?
-            </p>
-          </div>
-        </div>
-        
+        )}
         <hr />
-        <div className="write">
-          <textarea placeholder="Write a message" cols="30" rows="10"></textarea>
-          <button>Send</button>
-        </div>
+        <form className="write" onSubmit={handleSubmit}>
+          <textarea type="text" placeholder="write a message" />
+          <button type="submit">Send</button>
+        </form>
       </div>
     </div>
   );
