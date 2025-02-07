@@ -48,7 +48,7 @@ const { isLoading, error, data, refetch } = useQuery({
   return (
     <div className="gigs">
       <div className="container">
-     <span className="breadcrumbs"> SkillBridge> Graphics & Design ></span>
+     <span className="breadcrumbs"> SkillBridge {`>`} Graphics & Design  {`>`}</span>
 
         <h1>AI Artists</h1>
         <p>

@@ -89,7 +89,7 @@ function Navbar() {
       {(active || pathname !== "/") && (
         <>
           <hr />
-                      <div className="menu">
+            <div className="menu">
               <Link className="link menuLink" to="/">
                 <i>Graphics & Design</i>
               </Link>
