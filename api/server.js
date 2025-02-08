@@ -35,10 +35,11 @@ app.use(cookieParser());
 app.use("/api/auth",authRoute)
 app.use("/api/users",userRoute)
 app.use("/api/gigs",gigRoute)
-app.use("/api/order",orderRoute)
+app.use("/api/orders",orderRoute)
 app.use("/api/conversations",conversationRoute )
 app.use("/api/messages",messageRoute)
 app.use("/api/reviews",reviewRoute)
+
 
 app.use((err,req,res,next)=>{
 

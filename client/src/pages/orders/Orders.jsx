@@ -4,16 +4,14 @@ import "./Orders.scss";
 import { useQuery } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
 
-
 const Orders = () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   const navigate = useNavigate();
-
   const { isLoading, error, data } = useQuery({
     queryKey: ["orders"],
     queryFn: () =>
-      newRequest.get(`/order`).then((res) => {
+      newRequest.get(`/orders`).then((res) => {
         return res.data;
       }),
   });
@@ -35,9 +33,6 @@ const Orders = () => {
       }
     }
   };
-
-
-
   return (
     <div className="orders">
       {isLoading ? (
