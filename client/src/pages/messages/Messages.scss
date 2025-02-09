@@ -1,53 +1,69 @@
-.messages{
+.messages {
     display: flex;
     justify-content: center;
-    .container{
-        width: 1400px;
-        padding: 50px;
-
-        .title{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-           
-        }
-
-        table{
-            width: 100%;
-
-            tr{
-                height: 80px;
-                th{
-                    text-align: left;
-                }
-                td{
-                    padding: 10px;
-
-                    &:first-child{
-                        font-weight: 500;
-
-                    }
-                    &:nth-child(2),
-                    &:nth-child(3){
-                      color: gray;
-                    }
-                }
-                button{
-                    background-color: royalblue;
-                    color: white;
-                    font-weight: 500;
-                    border: none;
-                    padding: 10px;
-                    cursor: pointer;
-
-                }
-                &.active{
-                    background-color: #1dbf730f;
-                }
+    color: #555;
+  
+    .container {
+      width: 1400px;
+      padding: 50px 0px;
+  
+      .title {
+        display: flex;
+        justify-content: space-between;
+      }
+  
+      table {
+        width: 100%;
+        border-collapse: collapse;
+  
+        tr {
+          height: 80px;
+          border-bottom: 1px solid #ddd;
+  
+          th {
+            text-align: left;
+            padding: 10px;
+            font-size: 16px;
+          }
+  
+          td {
+            padding: 10px;
+            font-size: 14px;
+  
+            &:first-child {
+              font-weight: 600;
             }
+  
+            &:nth-child(2),
+            &:nth-child(3) {
+              color: gray;
+            }
+          }
+  
+          button {
+            background-color: #1dbf73;
+            color: white;
+            font-weight: 500;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.3s ease-in-out;
+  
+            &:hover {
+              background-color: #17a364;
+            }
+          }
+  
+          &.active {
+            background-color: #1dbf730f;
+          }
         }
-
+  
+        tr:hover {
+          background-color: rgba(0, 0, 0, 0.03);
+        }
+      }
     }
-
-}
+  }
+  

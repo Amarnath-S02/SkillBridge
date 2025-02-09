@@ -1,12 +1,17 @@
 .gig {
   display: flex;
   justify-content: center;
+  background-color: #f8f9fa;
+  padding: 40px 0;
 
   .container {
-    width: 1400px;
-    padding: 30px 0px;
+    width: 1200px;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     display: flex;
-    gap: 50px;
+    gap: 40px;
 
     .left {
       flex: 2;
@@ -15,13 +20,17 @@
       gap: 20px;
 
       .breadcrumbs {
-        font-weight: 300;
+        font-weight: 400;
         text-transform: uppercase;
-        font-size: 13px;
-        color: #555;
+        font-size: 12px;
+        color: #777;
+        letter-spacing: 1px;
       }
 
       h1 {
+        font-size: 26px;
+        font-weight: 600;
+        color: #333;
       }
 
       .user {
@@ -30,15 +39,17 @@
         gap: 10px;
 
         .pp {
-          width: 32px;
-          height: 32px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           object-fit: cover;
+          border: 2px solid #4169e1;
         }
 
         span {
-          font-size: 14px;
-          font-weight: 500;
+          font-size: 15px;
+          font-weight: 600;
+          color: #333;
         }
 
         .stars {
@@ -47,8 +58,8 @@
           gap: 5px;
 
           img {
-            height: 14px;
-            width: 14px;
+            height: 16px;
+            width: 16px;
           }
 
           span {
@@ -60,37 +71,48 @@
       }
 
       .slider {
-        background-color: #F5F5F5;
+        background-color: #eef2f5;
+        padding: 15px;
+        border-radius: 10px;
+
         img {
-          max-height: 500px;
+          max-height: 450px;
           object-fit: contain;
+          width: 100%;
+          border-radius: 8px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
       }
 
       h2 {
-        font-weight: 400;
+        font-weight: 500;
+        color: #444;
       }
 
       p {
-        font-weight: 300;
-        line-height: 25px;
+        font-weight: 400;
+        line-height: 26px;
         color: #555;
       }
 
       .seller {
-        margin-top: 50px;
+        margin-top: 40px;
         display: flex;
         flex-direction: column;
         gap: 20px;
+        background: #fefefe;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 
         .user {
           display: flex;
           align-items: center;
-          gap: 20px;
+          gap: 15px;
 
           img {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             object-fit: cover;
           }
@@ -98,7 +120,7 @@
           .info {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
 
             .stars {
               display: flex;
@@ -106,8 +128,8 @@
               gap: 5px;
 
               img {
-                height: 14px;
-                width: 14px;
+                height: 16px;
+                width: 16px;
               }
 
               span {
@@ -118,19 +140,28 @@
             }
 
             button {
-              background-color: white;
-              border-radius: 5px;
-              border: 1px solid gray;
+              background-color: #4169e1;
+              color: white;
+              border-radius: 6px;
+              border: none;
               padding: 10px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s ease;
+
+              &:hover {
+                background-color: #00008b;
+              }
             }
           }
         }
 
         .box {
-          border: 1px solid lightgray;
-          border-radius: 5px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
           padding: 20px;
-          margin-top: 20px;
+          margin-top: 15px;
+          background-color: #fff;
 
           .items {
             display: flex;
@@ -145,52 +176,56 @@
               margin-bottom: 20px;
 
               .title {
-                font-weight: 300;
+                font-weight: 400;
+                color: #333;
               }
             }
           }
 
           hr {
             height: 0;
-            border: 0.5px solid lightgray;
+            border: 0.5px solid #ddd;
             margin-bottom: 20px;
           }
         }
       }
-
-      
     }
 
     .right {
       flex: 1;
-      border: 1px solid lightgray;
+      border: 1px solid #ddd;
       padding: 20px;
-      border-radius: 5px;
+      border-radius: 8px;
       display: flex;
       flex-direction: column;
       gap: 20px;
       height: max-content;
       max-height: 500px;
       position: sticky;
-      top: 150px;
+      top: 120px;
+      background: white;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
 
       .price {
         display: flex;
         align-items: center;
         justify-content: space-between;
 
-        h2{
-          font-weight: 300;
+        h2 {
+          font-weight: 400;
+          color: #444;
         }
 
-        h3{
-          font-weight: 500;
+        h3 {
+          font-weight: 600;
+          color: #333;
         }
       }
 
-      p{
-        color: gray;
+      p {
+        color: #777;
         margin: 10px 0px;
+        font-size: 14px;
       }
 
       .details {
@@ -205,35 +240,55 @@
           gap: 10px;
 
           img {
-            width: 20px;
+            width: 18px;
           }
         }
       }
 
-      .features{
-        .item{
+      .features {
+        .item {
           display: flex;
           align-items: center;
           gap: 10px;
-          font-weight: 300;
-          color: gray;
+          font-weight: 400;
+          color: #555;
           margin-bottom: 5px;
 
-          img{
+          img {
             width: 14px;
           }
         }
       }
 
-      button{
-        background-color: #1dbf73;
-        padding: 10px;
+      button {
+        background-color: #4169e1;
+        padding: 12px;
         color: white;
-        font-weight: 500;
+        font-weight: 600;
         border: none;
         font-size: 18px;
+        border-radius: 6px;
         cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: #00008b;
+        }
       }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .container {
+      flex-direction: column;
+      width: 90%;
+      gap: 20px;
+    }
+
+    .right {
+      position: relative;
+      max-height: unset;
+      width: 100%;
     }
   }
 }

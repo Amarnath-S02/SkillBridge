@@ -12,10 +12,10 @@ const Message = () => {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["messages"],
-    queryFn: () =>
-      newRequest.get(`/messages/${id}`).then((res) => {
-        return res.data;
-      }),
+    queryFn: async () => {
+      const res = await newRequest.get(`/messages/${id}`);
+      return res.data;
+    },
   });
 
   const mutation = useMutation({
@@ -40,28 +40,31 @@ const Message = () => {
     <div className="message">
       <div className="container">
         <span className="breadcrumbs">
-          <Link to="/messages">Messages</Link> {`>>`}
+          <Link to="/messages">Messages</Link> {`>`}
         </span>
         {isLoading ? (
-          "loading"
+          "Loading..."
         ) : error ? (
-          "error"
+          "Error loading messages"
         ) : (
           <div className="messages">
-            {data.map((m) => (
-              <div className={m.userId === currentUser._id ? "owner item" : "item"} key={m._id}>
-                <img
-                  src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                  alt=""
-                />
-                <p>{m.desc}</p>
-              </div>
-            ))}
+            {data.map((m) => {
+              const isSender = m.userId === currentUser._id;
+              return (
+                <div className={isSender ? "owner item" : "item"} key={m._id}>
+                  {/* Show recipient's name only */}
+                  {!isSender && (
+                    <span className="username">{m.userId?.name || "Recipient"}</span>
+                  )}
+                  <p>{m.desc}</p>
+                </div>
+              );
+            })}
           </div>
         )}
         <hr />
         <form className="write" onSubmit={handleSubmit}>
-          <textarea type="text" placeholder="write a message" />
+          <textarea type="text" placeholder="Write a message..." />
           <button type="submit">Send</button>
         </form>
       </div>

@@ -9,108 +9,119 @@ import Reviews from "../../components/reviews/Reviews";
 function Gig() {
   const { id } = useParams();
 
+  // Fetch gig details
   const { isLoading, error, data } = useQuery({
-    queryKey: ["gig"],
-    queryFn: () =>
-      newRequest.get(`/gigs/single/${id}`).then((res) => {
-        return res.data;
-      }),
+    queryKey: ["gig", id], // Ensure different gigs don’t mix data
+    queryFn: () => newRequest.get(`/gigs/single/${id}`).then((res) => res.data),
   });
 
   const userId = data?.userId;
+  console.log("Gig User ID:", userId); // Debugging
 
+  // Fetch user details
   const {
     isLoading: isLoadingUser,
     error: errorUser,
     data: dataUser,
   } = useQuery({
-    queryKey: ["user"],
-    queryFn: () =>
-      newRequest.get(`/users/${userId}`).then((res) => {
-        return res.data;
-      }),
-    enabled: !!userId,
+    queryKey: ["user", userId], // Unique key per user
+    queryFn: () => newRequest.get(`/users/${userId}`).then((res) => res.data),
+    enabled: !!userId, // Run query only when userId exists
   });
+
+  const handleContact = (user) => {
+    const email = user.email; // Seller's email
+    const emailLink = `mailto:${email}?subject=Inquiry about your gig&body=Hi, I'm interested in your services.`;
+  
+    window.location.href = emailLink; // Opens email app directly
+  };
+  
 
   return (
     <div className="gig">
       {isLoading ? (
-        "loading"
+        "Loading..."
       ) : error ? (
         "Something went wrong!"
       ) : (
         <div className="container">
           <div className="left">
             <span className="breadcrumbs">
-              Fiverr {">"} Graphics & Design {">"}
+              SkillBridge {">"} Graphics & Design {">"}
             </span>
             <h1>{data.title}</h1>
+
+            {/* User Info */}
             {isLoadingUser ? (
-              "loading"
+              "Loading..."
             ) : errorUser ? (
               "Something went wrong!"
             ) : (
               <div className="user">
                 <img
                   className="pp"
-                  src={dataUser.img || "/img/noavatar.jpg"}
-                  alt=""
+                  src={dataUser?.img || "/img/noavatar.jpg"}
+                  alt="User Avatar"
                 />
-                <span>{dataUser.username}</span>
-                {!isNaN(data.totalStars / data.starNumber) && (
-                  <div className="stars">
-                    {Array(Math.round(data.totalStars / data.starNumber))
-                      .fill()
-                      .map((item, i) => (
-                        <img src="/img/star.png" alt="" key={i} />
-                      ))}
-                    <span>{Math.round(data.totalStars / data.starNumber)}</span>
-                  </div>
-                )}
+                <span>{dataUser?.username || "Unknown User"}</span>
+            
+            {!isNaN(data.totalStars / data.starNumber) && (
+              <div className="stars">
+                <img src="/img/star.png" alt="Star" />
+                <span>{Math.round(data.totalStars / data.starNumber)}</span>
               </div>
             )}
+
+              
+              </div>
+            )}
+
             <Slider slidesToShow={1} arrowsScroll={1} className="slider">
               {data.images.map((img) => (
-                <img key={img} src={img} alt="" />
+                <img key={img} src={img} alt="Gig Image" />
               ))}
             </Slider>
+
             <h2>About This Gig</h2>
             <p>{data.desc}</p>
+
+            {/* Seller Info */}
             {isLoadingUser ? (
-              "loading"
+              "Loading..."
             ) : errorUser ? (
               "Something went wrong!"
             ) : (
               <div className="seller">
                 <h2>About The Seller</h2>
                 <div className="user">
-                  <img src={dataUser.img || "/img/noavatar.jpg"} alt="" />
+                  <img src={dataUser?.img || "/img/noavatar.jpg"} alt="User" />
                   <div className="info">
-                    <span>{dataUser.username}</span>
+                    <span>{dataUser?.username || "Unknown User"}</span>
                     {!isNaN(data.totalStars / data.starNumber) && (
                       <div className="stars">
                         {Array(Math.round(data.totalStars / data.starNumber))
                           .fill()
-                          .map((item, i) => (
-                            <img src="/img/star.png" alt="" key={i} />
+                          .map((_, i) => (
+                            <img src="/img/star.png" alt="Star" key={i} />
                           ))}
                         <span>
                           {Math.round(data.totalStars / data.starNumber)}
                         </span>
                       </div>
                     )}
-                    <button>Contact Me</button>
+                   <button onClick={() => handleContact(dataUser)}>Contact Me</button>
+
                   </div>
                 </div>
                 <div className="box">
                   <div className="items">
                     <div className="item">
                       <span className="title">From</span>
-                      <span className="desc">{dataUser.country}</span>
+                      <span className="desc">{dataUser?.country || "N/A"}</span>
                     </div>
                     <div className="item">
                       <span className="title">Member since</span>
-                      <span className="desc">Aug 2022</span>
+                      <span className="desc">jun 2025</span>
                     </div>
                     <div className="item">
                       <span className="title">Avg. response time</span>
@@ -121,43 +132,46 @@ function Gig() {
                       <span className="desc">1 day</span>
                     </div>
                     <div className="item">
-                      <span className="title">Languages</span>
-                      <span className="desc">English</span>
+                      <span className="title">Current Projects</span>
+                      <span className="desc">2 Active</span>
                     </div>
                   </div>
                   <hr />
-                  <p>{dataUser.desc}</p>
+                  <p>{dataUser?.desc || "No description available."}</p>
                 </div>
               </div>
             )}
+
             <Reviews gigId={id} />
           </div>
+
+          {/* Gig Pricing Section */}
           <div className="right">
             <div className="price">
               <h3>{data.shortTitle}</h3>
-              <h2>Rs{data.price}</h2>
+              <h2>Rs {data.price}</h2>
             </div>
             <p>{data.shortDesc}</p>
             <div className="details">
               <div className="item">
-                <img src="/img/clock.png" alt="" />
-                <span>{data.deliveryDate} Days Delivery</span>
+                <img src="/img/clock.png" alt="Clock Icon" />
+                <span>{data.deliveryTime} Days Delivery</span>
               </div>
               <div className="item">
-                <img src="/img/recycle.png" alt="" />
+                <img src="/img/recycle.png" alt="Recycle Icon" />
                 <span>{data.revisionNumber} Revisions</span>
               </div>
             </div>
             <div className="features">
               {data.features.map((feature) => (
                 <div className="item" key={feature}>
-                  <img src="/img/greencheck.png" alt="" />
+                  <img src="/img/greencheck.png" alt="Check Icon" />
                   <span>{feature}</span>
                 </div>
               ))}
             </div>
             <Link to={`/pay/${id}`}>
-            <button>Continue</button>
+              <button >Continue</button>
             </Link>
           </div>
         </div>

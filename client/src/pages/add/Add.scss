@@ -1,49 +1,146 @@
-.add{
+.add {
     display: flex;
     justify-content: center;
-    .container{
-   width: 1400px;
-   padding: 50px 0px;
-
-   h1{
-    color: gray;
-    font-weight: 300;
-    margin-bottom: 30px;
-   }
-   .sections{
-    display: flex;
-    justify-content: space-between;
-    gap: 100px;
-
-    .left,.right{
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        justify-content: space-between;
-        // background-color: #f9f9f9;
-        // border-radius: 10px;
-        // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-        label{
-            color:gray;
-            font-size: 18px;
+    background-color: #f8f9fa;
+    padding: 50px 0;
+  
+    .container {
+      width: 1200px;
+      padding: 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  
+      h1 {
+        margin-bottom: 30px;
+        color: #333;
+        font-weight: 600;
+        font-size: 28px;
+        text-align: center;
+      }
+  
+      .sections {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+  
+        label {
+          color: #555;
+          font-size: 16px;
+          font-weight: 500;
+          margin-bottom: 8px;
         }
-        input,select,textarea{
-            padding: 18px;
+  
+        .info,
+        .details {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+  
+          input,
+          select,
+          textarea {
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+  
+            &:focus {
+              border-color: #4169e1;
+              outline: none;
+              box-shadow: 0 0 8px rgba(65, 105, 225, 0.2);
+            }
+          }
+  
+          .images {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+  
+            .imagesInputs {
+              display: flex;
+              flex-direction: column;
+              gap: 15px;
+            }
+          }
+  
+          button {
+            border: none;
+            padding: 14px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            background-color: #4169e1; // Royal Blue
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+  
+            &:hover {
+              background-color: #00008b; // Dark Blue
+            }
+          }
+  
+          .add {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+  
+            input {
+              width: 100%;
+            }
+  
+            button {
+              background-color: #4169e1; // Royal Blue
+              font-size: 14px;
+              padding: 10px;
+              border-radius: 6px;
+  
+              &:hover {
+                background-color: #00008b; // Dark Blue
+              }
+            }
+          }
+  
+          .addedFeatures {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+  
+            button {
+              height: 32px;
+              font-size: 14px;
+              font-weight: 500;
+              background: transparent;
+              color: red;
+              border: 1px solid red;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              padding: 6px 12px;
+              border-radius: 6px;
+              transition: all 0.3s ease;
+  
+              &:hover {
+                background: red;
+                color: white;
+              }
+            }
+          }
         }
-        button{
-           border:none;
-           padding: 20px;
-           background-color:royalblue ; 
-           color: white;
-           font-weight: 500;
-           font-size: 15px;
-           cursor: pointer;
-        }
-
+      }
     }
-    
-   }
+  
+    @media (max-width: 1024px) {
+      .container {
+        width: 90%;
+      }
+  
+      .sections {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
     }
-}
+  }
+  

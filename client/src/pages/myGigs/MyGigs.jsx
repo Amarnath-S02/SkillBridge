@@ -8,20 +8,27 @@ import newRequest from "../../utils/newRequest";
 function MyGigs() {
   const currentUser = getCurrentUser();
 
+  // ✅ Ensure currentUser exists before proceeding
+  if (!currentUser) {
+    return <p>Error: User not logged in.</p>;
+  }
+
   const queryClient = useQueryClient();
 
+  // ✅ Fetch user's gigs
   const { isLoading, error, data } = useQuery({
     queryKey: ["myGigs"],
     queryFn: () =>
-      newRequest.get(`/gigs?userId=${currentUser.id}`).then((res) => {
+      newRequest.get(`/gigs?userId=${currentUser._id}`).then((res) => {
+        console.log("Fetched Gigs:", res.data); // ✅ Debugging API response
         return res.data;
       }),
+    enabled: !!currentUser._id, // ✅ Only run if userId is available
   });
 
+  // ✅ Mutation for deleting a gig
   const mutation = useMutation({
-    mutationFn: (id) => {
-      return newRequest.delete(`/gigs/${id}`);
-    },
+    mutationFn: (id) => newRequest.delete(`/gigs/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries(["myGigs"]);
     },
@@ -34,45 +41,56 @@ function MyGigs() {
   return (
     <div className="myGigs">
       {isLoading ? (
-        "loading"
+        "Loading..."
       ) : error ? (
-        "error"
+        <p>Error fetching Services.</p>
       ) : (
         <div className="container">
           <div className="title">
-            <h1>Gigs</h1>
+            <h1>My Services</h1>
             {currentUser.isSeller && (
               <Link to="/add">
-                <button>Add New Gig</button>
+                <button>Add New Service</button>
               </Link>
             )}
           </div>
           <table>
-            <tr>
-              <th>Image</th>
-              <th>Title</th>
-              <th>Price</th>
-              <th>Sales</th>
-              <th>Action</th>
-            </tr>
-            {data.map((gig) => (
-              <tr key={gig._id}>
-                <td>
-                  <img className="image" src={gig.cover} alt="" />
-                </td>
-                <td>{gig.title}</td>
-                <td>{gig.price}</td>
-                <td>{gig.sales}</td>
-                <td>
-                  <img
-                    className="delete"
-                    src="./img/delete.png"
-                    alt=""
-                    onClick={() => handleDelete(gig._id)}
-                  />
-                </td>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Sales</th>
+                <th>Action</th>
               </tr>
-            ))}
+            </thead>
+            <tbody>
+              {data?.length > 0 ? (
+                data.map((gig) => (
+                  <tr key={gig._id}>
+                    <td>
+                      <img className="image" src={gig.cover || "/img/default.jpg"} alt="" />
+                    </td>
+                    <td>{gig.title}</td>
+                    <td>Rs {gig.price}</td>
+                    <td>{gig.sales}</td>
+                    <td>
+                      <img
+                        className="delete"
+                        src="/img/delete.png"
+                        alt="Delete"
+                        onClick={() => handleDelete(gig._id)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">No Services found.</td>
+                </tr>
+              )}
+            </tbody>
           </table>
         </div>
       )}
