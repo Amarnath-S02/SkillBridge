@@ -1,13 +1,14 @@
 import React from "react";
 import "./Gig.scss";
 import { Slider } from "infinite-react-carousel/lib";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
 import Reviews from "../../components/reviews/Reviews";
 
 function Gig() {
   const { id } = useParams();
+  const navigate = useNavigate(); // Initialize navigate function
 
   // Fetch gig details
   const { isLoading, error, data } = useQuery({
@@ -16,7 +17,6 @@ function Gig() {
   });
 
   const userId = data?.userId;
-  console.log("Gig User ID:", userId); // Debugging
 
   // Fetch user details
   const {
@@ -29,11 +29,9 @@ function Gig() {
     enabled: !!userId, // Run query only when userId exists
   });
 
+  // Navigate to the messages page instead of opening email
   const handleContact = (user) => {
-    const email = user.email; // Seller's email
-    const emailLink = `mailto:${email}?subject=Inquiry about your gig&body=Hi, I'm interested in your services.`;
-  
-    window.location.href = emailLink; // Opens email app directly
+    window.location.href = `mailto:${user.email}`;
   };
   
 
@@ -64,15 +62,12 @@ function Gig() {
                   alt="User Avatar"
                 />
                 <span>{dataUser?.username || "Unknown User"}</span>
-            
-            {!isNaN(data.totalStars / data.starNumber) && (
-              <div className="stars">
-                <img src="/img/star.png" alt="Star" />
-                <span>{Math.round(data.totalStars / data.starNumber)}</span>
-              </div>
-            )}
-
-              
+                {!isNaN(data.totalStars / data.starNumber) && (
+                  <div className="stars">
+                    <img src="/img/star.png" alt="Star" />
+                    <span>{Math.round(data.totalStars / data.starNumber)}</span>
+                  </div>
+                )}
               </div>
             )}
 
@@ -82,7 +77,7 @@ function Gig() {
               ))}
             </Slider>
 
-            <h2>About This Gig</h2>
+            <h2>About This Service</h2>
             <p>{data.desc}</p>
 
             {/* Seller Info */}
@@ -109,8 +104,9 @@ function Gig() {
                         </span>
                       </div>
                     )}
-                   <button onClick={() => handleContact(dataUser)}>Contact Me</button>
+                    <button onClick={() => handleContact(dataUser)}>Contact Me</button>
 
+            
                   </div>
                 </div>
                 <div className="box">
@@ -120,8 +116,8 @@ function Gig() {
                       <span className="desc">{dataUser?.country || "N/A"}</span>
                     </div>
                     <div className="item">
-                      <span className="title">Member since</span>
-                      <span className="desc">jun 2025</span>
+                      <span className="title">Email</span>
+                      <span className="desc">{dataUser?.email}</span>
                     </div>
                     <div className="item">
                       <span className="title">Avg. response time</span>
@@ -171,7 +167,7 @@ function Gig() {
               ))}
             </div>
             <Link to={`/pay/${id}`}>
-              <button >Continue</button>
+              <button>Continue</button>
             </Link>
           </div>
         </div>

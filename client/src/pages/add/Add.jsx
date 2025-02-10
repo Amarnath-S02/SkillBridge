@@ -93,7 +93,11 @@ const Add = () => {
             <label>Category</label>
             <select name="cat" id="cat" onChange={handleChange} required>
               <option value="">Select a category</option>
+<<<<<<< HEAD
               <option value="design">design</option>
+=======
+              <option value="design">Design</option>
+>>>>>>> 699dd20 (1st review completion)
               <option value="video-animation">Video & Animation</option>
               <option value="writing-translation">Writing & Translation</option>
               <option value="ai-services">AI Services</option>

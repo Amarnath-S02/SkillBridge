@@ -60,7 +60,7 @@ const Orders = () => {
                 <td>{order.price}</td>
                 <td>
                   <img
-                    className="message"
+                    className="message-m"
                     src="./img/message.png"
                     alt=""
                     onClick={() => handleContact(order)}
