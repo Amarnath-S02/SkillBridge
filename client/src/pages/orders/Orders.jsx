@@ -33,6 +33,7 @@ const Orders = () => {
       }
     }
   };
+
   return (
     <div className="orders">
       {isLoading ? (
@@ -45,29 +46,37 @@ const Orders = () => {
             <h1>Orders</h1>
           </div>
           <table>
-            <tr>
-              <th>Image</th>
-              <th>Title</th>
-              <th>Price</th>
-              <th>Contact</th>
-            </tr>
-            {data.map((order) => (
-              <tr key={order._id}>
-                <td>
-                  <img className="image" src={order.img} alt="" />
-                </td>
-                <td>{order.title}</td>
-                <td>{order.price}</td>
-                <td>
-                  <img
-                    className="message-m"
-                    src="./img/message.png"
-                    alt=""
-                    onClick={() => handleContact(order)}
-                  />
-                </td>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Contact</th>
               </tr>
-            ))}
+            </thead>
+            <tbody>
+              {data.map((order) => (
+                <tr key={order._id}>
+                  <td>
+                    <img className="image" src={order.img} alt="" />
+                  </td>
+                  <td>{order.title}</td>
+                  <td>{order.price}</td>
+                  <td className={order.status === "completed" ? "completed" : "in-progress"}>
+                    {order.status === "completed" ? "Completed" : "In Progress"}
+                  </td>
+                  <td>
+                    <img
+                      className="message-m"
+                      src="./img/message.png"
+                      alt=""
+                      onClick={() => handleContact(order)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       )}

@@ -69,7 +69,7 @@ const Message = () => {
         {loadingConversation ? (
           <p className="loading">Loading conversation...</p>
         ) : (
-          <h3>Chat with {otherUserRole}</h3>
+          <h3>{otherUserRole}</h3>
         )}
         {isLoading ? (
           <p className="loading">Loading messages...</p>

@@ -7,12 +7,11 @@ import { useParams } from "react-router-dom";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
 
 const stripePromise = loadStripe(
-'pk_test_51QqBoyGDrrUJpbce7P0nzqC8LhW3e2lqEZmuerddzYWomyfVOJHQ1lLz5p5bIrTEsJeS0u26e3z0WSwh2rwDuNOx002rK2Ulib '
+  "pk_test_51QqBoyGDrrUJpbce7P0nzqC8LhW3e2lqEZmuerddzYWomyfVOJHQ1lLz5p5bIrTEsJeS0u26e3z0WSwh2rwDuNOx002rK2Ulib"
 );
 
 const Pay = () => {
   const [clientSecret, setClientSecret] = useState("");
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -30,20 +29,27 @@ const Pay = () => {
   }, []);
 
   const appearance = {
-    theme: 'stripe',
+    theme: "stripe",
   };
   const options = {
     clientSecret,
     appearance,
   };
 
-  return <div className="pay">
-    {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
-      )}
-  </div>;
+  return (
+    <div className="pay">
+      <div className="pay-container">
+        <h2 className="pay-title">Secure Payment</h2>
+        {clientSecret ? (
+          <Elements options={options} stripe={stripePromise}>
+            <CheckoutForm />
+          </Elements>
+        ) : (
+          <p className="loading-text">Loading payment details...</p>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Pay;

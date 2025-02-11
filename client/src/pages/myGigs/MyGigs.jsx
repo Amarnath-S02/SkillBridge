@@ -8,40 +8,56 @@ import newRequest from "../../utils/newRequest";
 function MyGigs() {
   const currentUser = getCurrentUser();
 
-  // ✅ Ensure currentUser exists before proceeding
-  if (!currentUser) {
+  // ✅ Ensure user is logged in
+  if (!currentUser || !currentUser._id) {
     return <p>Error: User not logged in.</p>;
   }
 
   const queryClient = useQueryClient();
 
-  // ✅ Fetch user's gigs
+  // ✅ Fetch gigs for the current user
   const { isLoading, error, data } = useQuery({
     queryKey: ["myGigs"],
-    queryFn: () =>
-      newRequest.get(`/gigs?userId=${currentUser._id}`).then((res) => {
-        console.log("Fetched Gigs:", res.data); // ✅ Debugging API response
-        return res.data;
-      }),
-    enabled: !!currentUser._id, // ✅ Only run if userId is available
+    queryFn: async () => {
+      try {
+        const response = await newRequest.get(`/gigs?userId=${currentUser._id}`);
+        console.log("Fetched Gigs:", response.data); // Debugging
+        return response.data;
+      } catch (err) {
+        console.error("Error fetching gigs:", err);
+        throw err;
+      }
+    },
+    enabled: !!currentUser._id, // ✅ Run only if userId exists
   });
 
-  // ✅ Mutation for deleting a gig
+  // ✅ Mutation to delete a gig
   const mutation = useMutation({
-    mutationFn: (id) => newRequest.delete(`/gigs/${id}`),
+    mutationFn: async (id) => {
+      try {
+        const response = await newRequest.delete(`/gigs/${id}`);
+        console.log(`Deleted gig ${id}:`, response.data);
+        return response.data;
+      } catch (err) {
+        console.error(`Error deleting gig ${id}:`, err);
+        throw err;
+      }
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries(["myGigs"]);
+      queryClient.invalidateQueries(["myGigs"]); // Refresh list
     },
   });
 
   const handleDelete = (id) => {
-    mutation.mutate(id);
+    if (window.confirm("Are you sure you want to delete this gig?")) {
+      mutation.mutate(id);
+    }
   };
 
   return (
     <div className="myGigs">
       {isLoading ? (
-        "Loading..."
+        <p>Loading...</p>
       ) : error ? (
         <p>Error fetching Services.</p>
       ) : (
@@ -69,7 +85,11 @@ function MyGigs() {
                 data.map((gig) => (
                   <tr key={gig._id}>
                     <td>
-                      <img className="image" src={gig.cover || "/img/default.jpg"} alt="" />
+                      <img
+                        className="image"
+                        src={gig.cover || "/img/default.jpg"}
+                        alt="Gig"
+                      />
                     </td>
                     <td>{gig.title}</td>
                     <td>Rs {gig.price}</td>

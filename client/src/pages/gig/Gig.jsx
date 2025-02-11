@@ -145,7 +145,7 @@ function Gig() {
           <div className="right">
             <div className="price">
               <h3>{data.shortTitle}</h3>
-              <h2>Rs {data.price}</h2>
+              <h2>₹ {data.price}</h2>
             </div>
             <p>{data.shortDesc}</p>
             <div className="details">

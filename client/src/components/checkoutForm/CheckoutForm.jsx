@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import "./CheckoutForm.scss";
+
 import {
   PaymentElement,
   LinkAuthenticationElement,

@@ -1,85 +1,73 @@
 .myGigs {
     display: flex;
     justify-content: center;
-
+    color: #444;
+  
     .container {
+      width: 100%;
+      max-width: 1200px;
+      padding: 30px 20px;
+  
+      .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+  
+        h1 {
+          font-size: 22px;
+          font-weight: bold;
+        }
+  
+        button {
+          background-color: #1e90ff;
+          color: white;
+          padding: 10px 15px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: 0.3s;
+  
+          &:hover {
+            background-color: #005ecb;
+          }
+        }
+      }
+  
+      table {
         width: 100%;
-        max-width: 1400px;
-        padding: 50px;
-
-        .title {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-
-            h1 {
-                font-size: 24px;
-                font-weight: bold;
-            }
-
-            button {
-                background-color: royalblue;
-                color: white;
-                font-weight: 500;
-                border: none;
-                padding: 10px 15px;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background 0.3s;
-
-                &:hover {
-                    background-color: darkblue;
-                }
-            }
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+  
+        th, td {
+          text-align: left;
+          padding: 12px;
+          border-bottom: 1px solid #ddd;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid #ddd;
-
-            th, td {
-                text-align: left;
-                padding: 12px;
-                border-bottom: 1px solid #ddd;
-            }
-
-            th {
-                background-color: #f4f4f4;
-                font-weight: bold;
-            }
-
-            tr:nth-child(even) {
-                background-color: #f9f9f9;
-            }
-
-            tr:hover {
-                background-color: #f1f1f1;
-            }
-
-            td {
-                vertical-align: middle;
-
-                .image {
-                    width: 50px;
-                    height: 50px;
-                    object-fit: cover;
-                    border-radius: 5px;
-                }
-
-                .delete {
-                    width: 20px;
-                    cursor: pointer;
-                    transition: opacity 0.3s;
-                    display: block;
-                    margin: auto;
-
-                    &:hover {
-                        opacity: 0.7;
-                    }
-                }
-            }
+  
+        th {
+          background-color: #f4f4f4;
+          font-weight: bold;
         }
+  
+        .image {
+          width: 50px;
+          height: 50px;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+  
+        .delete {
+          width: 25px;
+          height: 25px;
+          cursor: pointer;
+          transition: opacity 0.3s;
+  
+          &:hover {
+            opacity: 0.7;
+          }
+        }
+      }
     }
-}
+  }
+  
