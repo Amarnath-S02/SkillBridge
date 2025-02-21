@@ -17,6 +17,7 @@ export const createGig = async (req, res, next) => {
     next(err);
   }
 };
+
 export const deleteGig = async (req, res, next) => {
   try {
     const gig = await Gig.findById(req.params.id);
@@ -29,6 +30,7 @@ export const deleteGig = async (req, res, next) => {
     next(err);
   }
 };
+
 export const getGig = async (req, res, next) => {
   try {
     const gig = await Gig.findById(req.params.id);
@@ -38,6 +40,8 @@ export const getGig = async (req, res, next) => {
     next(err);
   }
 };
+
+// ✅ Regular getGigs for normal users
 export const getGigs = async (req, res, next) => {
   const q = req.query;
   const filters = {
@@ -54,6 +58,20 @@ export const getGigs = async (req, res, next) => {
   try {
     const gigs = await Gig.find(filters).sort({ [q.sort]: -1 });
     res.status(200).send(gigs);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ✅ fetchGigs for Admins (Gets ALL gigs without filters)
+export const fetchGigs = async (req, res, next) => {
+  try {
+    if (!req.isAdmin) {
+      return next(createError(403, "Only admins can fetch all gigs!"));
+    }
+
+    const gigs = await Gig.find(); // No filters, returns all gigs
+    res.status(200).json(gigs);
   } catch (err) {
     next(err);
   }

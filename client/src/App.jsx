@@ -1,4 +1,5 @@
 import React from "react";
+import { RecoilRoot } from "recoil"; // ✅ Import RecoilRoot
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Home from "./pages/home/Home";
@@ -29,16 +30,13 @@ function App() {
   const Layout = () => {
     return (
       <div className="app">
-        <QueryClientProvider client={queryClient}>
-          <Navbar />
-          <Outlet />
-          <Footer />
-        </QueryClientProvider>
+        <Navbar />
+        <Outlet />
+        <Footer />
       </div>
     );
   };
 
-  // ✅ Corrected Router Configuration
   const router = createBrowserRouter([
     {
       path: "/",
@@ -70,9 +68,11 @@ function App() {
   ]);
 
   return (
-    <div>
-      <RouterProvider router={router} />
-    </div>
+    <RecoilRoot> {/* ✅ Ensure RecoilRoot is at the top level */}
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </RecoilRoot>
   );
 }
 
