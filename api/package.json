@@ -20,6 +20,7 @@
     "mongoose": "^8.9.6",
     "nodemon": "^3.1.9",
     "recharts": "^2.15.1",
+    "recoil": "^0.7.7",
     "stripe": "^17.6.0"
   }
 }
