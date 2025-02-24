@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, Users, Briefcase, Settings } from "lucide-react";
+import { Menu, Users, Briefcase, Settings, Home } from "lucide-react";
 import "./AdminSidebar.scss";
 
 const AdminSidebar = () => {
@@ -12,6 +12,11 @@ const AdminSidebar = () => {
         <Menu size={24} />
       </button>
       <ul>
+        <li>
+          <Link to="/admin">
+            <Home size={20} /> {!isCollapsed && "Home"}
+          </Link>
+        </li>
         <li>
           <Link to="/admin/users">
             <Users size={20} /> {!isCollapsed && "Users"}

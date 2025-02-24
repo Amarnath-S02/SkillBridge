@@ -1,5 +1,7 @@
+
 import Gig from "../models/gig.model.js";
 import createError from "../utils/createError.js";
+import User from "../models/user.model.js";
 
 export const createGig = async (req, res, next) => {
   if (!req.isSeller)
@@ -17,7 +19,6 @@ export const createGig = async (req, res, next) => {
     next(err);
   }
 };
-
 export const deleteGig = async (req, res, next) => {
   try {
     const gig = await Gig.findById(req.params.id);
@@ -30,7 +31,6 @@ export const deleteGig = async (req, res, next) => {
     next(err);
   }
 };
-
 export const getGig = async (req, res, next) => {
   try {
     const gig = await Gig.findById(req.params.id);
@@ -40,8 +40,6 @@ export const getGig = async (req, res, next) => {
     next(err);
   }
 };
-
-// ✅ Regular getGigs for normal users
 export const getGigs = async (req, res, next) => {
   const q = req.query;
   const filters = {
@@ -63,16 +61,12 @@ export const getGigs = async (req, res, next) => {
   }
 };
 
-// ✅ fetchGigs for Admins (Gets ALL gigs without filters)
-export const fetchGigs = async (req, res, next) => {
+export const getAllGigs = async (req, res) => {
   try {
-    if (!req.isAdmin) {
-      return next(createError(403, "Only admins can fetch all gigs!"));
-    }
-
-    const gigs = await Gig.find(); // No filters, returns all gigs
+    const gigs = await Gig.find().populate("userId", "username img");
     res.status(200).json(gigs);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching gigs", error });
   }
 };
+

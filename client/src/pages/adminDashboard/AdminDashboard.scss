@@ -1,23 +1,97 @@
 .admin-dashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f6f9;
+
+  .admin-content {
+    flex: 1;
     display: flex;
-    height: 100vh;
-    background-color: #f4f4f4;
-  
-    .admin-content {
-      flex: 1;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .admin-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    // User Statistics Section
+    .user-stats {
       display: flex;
-      flex-direction: column;
-      overflow: hidden;
-  
-      .admin-main {
-        flex-grow: 1;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 800px;
+      
+      .stat-box {
+        background: #fff;
         padding: 20px;
-        background: white;
         border-radius: 10px;
-        margin: 10px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        overflow-y: auto; // Enables scrolling if content overflows
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        flex: 1;
+        
+        h3 {
+          font-size: 18px;
+          color: #555;
+        }
+
+        p {
+          font-size: 22px;
+          font-weight: bold;
+          color: #007bff;
+        }
+      }
+    }
+
+    // Charts Section
+    .charts-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 900px;
+
+      .chart-box {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 350px;
+
+        h3 {
+          font-size: 18px;
+          color: #444;
+          margin-bottom: 10px;
+        }
       }
     }
   }
-  
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .admin-main {
+    padding: 10px;
+
+    .user-stats {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .charts-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

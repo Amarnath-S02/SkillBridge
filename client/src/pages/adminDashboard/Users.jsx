@@ -1,22 +1,31 @@
-import React, { useEffect } from "react";
-import { useRecoilState, useRecoilValueLoadable } from "recoil";
-import { usersAtom, usersSelector } from "../../atom/usersAtom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Users.scss";
 
 const Users = () => {
-  const [users, setUsers] = useRecoilState(usersAtom);
-  const usersLoadable = useRecoilValueLoadable(usersSelector);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (usersLoadable.state === "hasValue" && Array.isArray(usersLoadable.contents)) {
-      setUsers(usersLoadable.contents);
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/users");
+      const filteredUsers = response.data.filter((user) => !user.isAdmin); // Exclude admins
+      setUsers(filteredUsers);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
     }
-  }, [usersLoadable.state, usersLoadable.contents, setUsers]);
+  };
 
   const removeUser = async (id) => {
-    setUsers((prev) => prev.filter((user) => user.id !== id));
     try {
-      await fetch(`http://localhost:3000/api/users/${id}`, { method: "DELETE" }); // No auth
+      await axios.delete(`http://localhost:3000/api/users/${id}`);
+      fetchUsers(); // Fetch updated list after deletion
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -25,34 +34,36 @@ const Users = () => {
   return (
     <div className="users">
       <h2>Manage Users</h2>
-      <div className="users-list">
-        <table>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(users) && users.length > 0 ? (
-              users.map((user) => (
-                <tr key={user.id || user._id}> {/* Ensure unique key */}
-                  <td>{user.name}</td>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="users-list">
+          <table>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user.username}</td>
+                  <td>{user.email}</td>
+                  <td>{user.isSeller ? "Seller" : "Buyer"}</td>
                   <td>
-                    <button className="remove-btn" onClick={() => removeUser(user.id)}>
+                    <button className="remove-btn" onClick={() => removeUser(user._id)}>
                       Remove
                     </button>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="2">No users found</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

@@ -22,7 +22,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 600px; // Prevents table from squeezing on small screens
+      min-width: 1000px; // Prevents table from squeezing on small screens
     }
 
     th, td {
@@ -59,6 +59,26 @@
       &:hover {
         background: #b22222;
         transform: scale(1.05);
+      }
+    }
+
+    // Seller Info Section
+    .seller-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .profile-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      span {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
       }
     }
   }
