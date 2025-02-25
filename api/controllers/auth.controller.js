@@ -1,83 +1,114 @@
 import User from "../models/user.model.js"; 
-import createError from "../utils/createError.js"; // Ensure the correct path
+import createError from "../utils/createError.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const register = async (req, res,next) => {
+// ✅ User Registration
+export const register = async (req, res, next) => {
     try {
-        const hash=bcrypt.hashSync(req.body.password,5)
-        const { username, email, password, country } = req.body;
-
-        // Check if the user already exists
-        // const existingUser = await User.findOne({ username });
-        // if (existingUser) {
-        //     return res.status(400).send({ message: "Username already exists" });
-        // }
+        const hash = bcrypt.hashSync(req.body.password, 10);
 
         const newUser = new User({
-           ...req.body,
-            password:hash,
-           
+            ...req.body,
+            password: hash,
         });
 
         await newUser.save();
-        res.status(201).send("User has been created");
+        res.status(201).json({ message: "User has been created" });
     } catch (error) {
-       next(error)
+        next(error);
     }
 };
 
-
-
-
-
-
-export const login = async (req, res,next) => {
+// ✅ User Login
+export const login = async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.body.username });
-      
+
         if (!user) {
-            return next(createError(404,"User not found!"));
+            return next(createError(404, "User not found!"));
         }
+
         const isCorrect = bcrypt.compareSync(req.body.password, user.password);
 
         if (!isCorrect) {
-            return next(createError(400,"Wrong password or Username!"));
-            //res.status(400).send();
+            return next(createError(400, "Wrong password or Username!"));
         }
-       
-        const token=jwt.sign({
-            id:user._id,
-            isSeller:user.isSeller,
 
-        },process.env.JWT_KEY)
+        const token = jwt.sign(
+            { id: user._id, isSeller: user.isSeller },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
+        );
 
-        // Exclude password from response
-        const { password, ...info } = user._doc
-        
-        res.cookie("accessToken",token,{httpOnly:true,}).status(200).send(info);
+        const { password, ...info } = user._doc;
 
+        res.cookie("accessToken", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "None"
+        }).status(200).json(info);
     } catch (error) {
         next(error);
-            //"Something went wrong", error: error.message });
     }
 };
 
-
-
-export const logout = async (req, res) => {
+// ✅ User Logout
+export const logout = (req, res) => {
     try {
         res.clearCookie("accessToken", {
-            sameSite: "None",  // ✅ Correct property name
-            secure: process.env.NODE_ENV === "production", // ✅ Secure only in production
-            httpOnly: true,  // ✅ Ensure cookie is httpOnly if required
+            sameSite: "None",
+            secure: process.env.NODE_ENV === "production",
+            httpOnly: true
         });
 
-        return res.status(200).json({ message: "User has been logged out." });
+        res.status(200).json({ message: "User has been logged out." });
     } catch (error) {
-        return res.status(500).json({ error: "Something went wrong." });
+        res.status(500).json({ message: "Something went wrong." });
     }
 };
 
+export const loginAdmin = async (req, res) => {
+  try {
+      const { email, password } = req.body;
 
+      if (!email || !password) {
+          return res.status(400).json({ message: "Email and password are required" });
+      }
 
+      const admin = await User.findOne({ email });
+
+      if (!admin || !admin.isAdmin) {
+          return res.status(401).json({ message: "Access Denied: Not an Admin" });
+      }
+
+      const isMatch = bcrypt.compareSync(password, admin.password);
+      if (!isMatch) {
+          return res.status(400).json({ message: "Invalid Credentials" });
+      }
+
+      const token = jwt.sign(
+          { id: admin._id, isAdmin: true },
+          process.env.JWT_KEY,
+          { expiresIn: "1d" }
+      );
+
+      res.cookie("accessToken", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    });
+
+      console.log("Response Headers:", res.getHeaders()); // Log headers
+
+      res.status(200).json({
+          message: "Login Successful",
+          token,
+          admin: { email: admin.email },
+      });
+
+  } catch (error) {
+      console.error("Login Admin Error:", error); // Log any errors
+      res.status(500).json({ message: "Server Error", error });
+  }
+};
