@@ -8,32 +8,33 @@ import Reviews from "../../components/reviews/Reviews";
 
 function Gig() {
   const { id } = useParams();
-  const navigate = useNavigate(); // Initialize navigate function
+  const navigate = useNavigate();
 
   // Fetch gig details
   const { isLoading, error, data } = useQuery({
-    queryKey: ["gig", id], // Ensure different gigs don’t mix data
+    queryKey: ["gig", id],
     queryFn: () => newRequest.get(`/gigs/single/${id}`).then((res) => res.data),
   });
 
   const userId = data?.userId;
 
-  // Fetch user details
-  const {
-    isLoading: isLoadingUser,
-    error: errorUser,
-    data: dataUser,
-  } = useQuery({
-    queryKey: ["user", userId], // Unique key per user
+  // Fetch seller details
+  const { isLoading: isLoadingUser, error: errorUser, data: dataUser } = useQuery({
+    queryKey: ["user", userId],
     queryFn: () => newRequest.get(`/users/${userId}`).then((res) => res.data),
-    enabled: !!userId, // Run query only when userId exists
+    enabled: !!userId,
   });
 
-  // Navigate to the messages page instead of opening email
-  const handleContact = (user) => {
-    window.location.href = `mailto:${user.email}`;
-  };
-  
+  // Fetch seller's orders
+  const { isLoading: isLoadingOrders, error: errorOrders, data: orders } = useQuery({
+    queryKey: ["orders", userId],
+    queryFn: () => newRequest.get(`/orders?sellerId=${userId}`).then((res) => res.data),
+    enabled: !!userId,
+  });
+
+  // Count pending and completed orders
+  const pendingOrders = orders ? orders.filter(order => order.status === "pending").length : 0;
+  const completedOrders = orders ? orders.filter(order => order.status === "completed").length : 0;
 
   return (
     <div className="gig">
@@ -44,9 +45,7 @@ function Gig() {
       ) : (
         <div className="container">
           <div className="left">
-            <span className="breadcrumbs">
-              SkillBridge {">"} Graphics & Design {">"}
-            </span>
+            <span className="breadcrumbs">SkillBridge {">"} Graphics & Design {">"}</span>
             <h1>{data.title}</h1>
 
             {/* User Info */}
@@ -56,11 +55,7 @@ function Gig() {
               "Something went wrong!"
             ) : (
               <div className="user">
-                <img
-                  className="pp"
-                  src={dataUser?.img || "/img/noavatar.jpg"}
-                  alt="User Avatar"
-                />
+                <img className="pp" src={dataUser?.img || "/img/noavatar.jpg"} alt="User Avatar" />
                 <span>{dataUser?.username || "Unknown User"}</span>
                 {!isNaN(data.totalStars / data.starNumber) && (
                   <div className="stars">
@@ -99,14 +94,10 @@ function Gig() {
                           .map((_, i) => (
                             <img src="/img/star.png" alt="Star" key={i} />
                           ))}
-                        <span>
-                          {Math.round(data.totalStars / data.starNumber)}
-                        </span>
+                        <span>{Math.round(data.totalStars / data.starNumber)}</span>
                       </div>
                     )}
-                    <button onClick={() => handleContact(dataUser)}>Contact Me</button>
-
-            
+                    <button>Contact Me</button>
                   </div>
                 </div>
                 <div className="box">
@@ -129,7 +120,15 @@ function Gig() {
                     </div>
                     <div className="item">
                       <span className="title">Current Projects</span>
-                      <span className="desc">2 Active</span>
+                      <span className="desc">
+                        {isLoadingOrders ? "Loading..." : `${pendingOrders} Active`}
+                      </span>
+                    </div>
+                    <div className="item">
+                      <span className="title">Total Projects Completed</span>
+                      <span className="desc">
+                        {isLoadingOrders ? "Loading..." : `${completedOrders} Completed`}
+                      </span>
                     </div>
                   </div>
                   <hr />

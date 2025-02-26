@@ -29,9 +29,22 @@ const Message = () => {
     },
   });
 
-  // Determine the other user's role
-  const isSeller = currentUser._id === conversationData?.sellerId;
-  const otherUserRole = isSeller ? "Buyer" : "Seller";
+  // Determine the other user's ID
+  const otherUserId =
+    conversationData &&
+    (currentUser._id === conversationData.sellerId
+      ? conversationData.buyerId
+      : conversationData.sellerId);
+
+  // Fetch the other user's details
+  const { data: otherUserData, isLoading: loadingOtherUser } = useQuery({
+    queryKey: ["user", otherUserId],
+    queryFn: async () => {
+      const res = await newRequest.get(`/users/${otherUserId}`);
+      return res.data;
+    },
+    enabled: !!otherUserId, // Only fetch if the user ID is available
+  });
 
   // Mutation to send messages
   const mutation = useMutation({
@@ -40,36 +53,34 @@ const Message = () => {
   });
 
   // Handle message submission
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const textMessage = e.target[0].value;
-    
+
     let imageUrl = null;
     if (image) {
       imageUrl = await upload(image); // Upload image to Cloudinary
     }
-  
+
     const messageData = {
       conversationId: id,
       desc: textMessage,
       img: imageUrl, // Attach uploaded image URL
     };
-  
+
     mutation.mutate(messageData);
     e.target[0].value = ""; // Clear input
     setImage(null);
   };
-  
 
   return (
     <div className="message">
       <div className="container">
         <Link to="/messages" className="breadcrumb">Messages</Link> {`>`}
-        {loadingConversation ? (
+        {loadingConversation || loadingOtherUser ? (
           <p className="loading">Loading conversation...</p>
         ) : (
-          <h3>{otherUserRole}</h3>
+          <h3>{otherUserData?.username || "User"}</h3>  
         )}
         {isLoading ? (
           <p className="loading">Loading messages...</p>
@@ -88,8 +99,7 @@ const Message = () => {
         <form onSubmit={handleSubmit} className="message-form">
           <textarea placeholder="Write a message..." required />
           <label className="file-label">
-          <input type="file" onChange={(e) => setImage(e.target.files[0])} />
-
+            <input type="file" onChange={(e) => setImage(e.target.files[0])} />
             Upload Image
           </label>
           <button type="submit">Send</button>

@@ -17,19 +17,14 @@ function MyGigs() {
 
   // ✅ Fetch gigs for the current user
   const { isLoading, error, data } = useQuery({
-    queryKey: ["myGigs"],
+    queryKey: ["myGigs", currentUser._id], // Ensure query key is user-specific
     queryFn: async () => {
-      try {
-        const response = await newRequest.get(`/gigs?userId=${currentUser._id}`);
-        console.log("Fetched Gigs:", response.data); // Debugging
-        return response.data;
-      } catch (err) {
-        console.error("Error fetching gigs:", err);
-        throw err;
-      }
+      const response = await newRequest.get(`/gigs?userId=${currentUser._id}`);
+      return response.data;
     },
-    enabled: !!currentUser._id, // ✅ Run only if userId exists
+    enabled: !!currentUser._id, // ✅ Prevent fetching if no user is logged in
   });
+  
 
   // ✅ Mutation to delete a gig
   const mutation = useMutation({

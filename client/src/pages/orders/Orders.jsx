@@ -18,7 +18,7 @@ const Orders = () => {
     },
   });
 
-  // Mutation to update order status
+  // Mutation to update order status for both seller and buyer
   const updateOrderStatus = useMutation({
     mutationFn: async (orderId) => {
       await newRequest.put(`/orders/${orderId}/complete`);
@@ -28,11 +28,13 @@ const Orders = () => {
 
       const previousOrders = queryClient.getQueryData(["orders"]);
 
-      // Optimistically update the UI
+      // Optimistically update UI for both seller and buyer
       queryClient.setQueryData(["orders"], (oldData) =>
         oldData
           ? oldData.map((order) =>
-              order._id === orderId ? { ...order, status: "completed" } : order
+              order._id === orderId
+                ? { ...order, status: "completed" }
+                : order
             )
           : []
       );
@@ -69,31 +71,24 @@ const Orders = () => {
     }
   };
 
-  console.log("Current User:", currentUser);
-  console.log("Orders Data:", data);
-
   const filteredOrders = data
-  ? Object.values(
-      data.reduce((acc, order) => {
-        // If an order already exists in acc with status "in-progress", update it only if it's now "completed"
-        if (!acc[order._id] || acc[order._id].status === "in-progress") {
-          acc[order._id] = order;
+    ? Object.values(
+        data.reduce((acc, order) => {
+          // If an order already exists in acc with status "in-progress", update it only if it's now "completed"
+          if (!acc[order._id] || acc[order._id].status === "in-progress") {
+            acc[order._id] = order;
+          }
+          return acc;
+        }, {})
+      ).filter((order) => {
+        if (currentUser.isSeller) {
+          return order.status === "pending" || order.status === "completed";
+        } else {
+          // Buyers should see "in-progress" until it's marked as "completed"
+          return order.status === "in-progress" || order.status === "completed";
         }
-        return acc;
-      }, {})
-    ).filter((order) => {
-      if (currentUser.isSeller) {
-        return order.status === "pending" || order.status === "completed";
-      } else {
-        // Buyers should see "in-progress" until it's marked as "completed"
-        return order.status === "in-progress" || order.status === "completed";
-      }
-    })
-  : [];
-
-
-
-
+      })
+    : [];
 
   return (
     <div className="orders">
@@ -125,18 +120,28 @@ const Orders = () => {
                   </td>
                   <td>{order.title}</td>
                   <td>₹{order.price}</td>
-                  <td className={order.status === "completed" ? "completed" : "pending"}>
+                  <td
+                    className={order.status === "completed" ? "completed" : "pending"}
+                  >
                     {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                   </td>
                   <td className={currentUser.isSeller ? "is-seller" : "action-column"}>
                     {currentUser.isSeller && order.status !== "completed" && (
-                      <button className="complete-btn" onClick={() => handleComplete(order._id)}>
+                      <button
+                        className="complete-btn"
+                        onClick={() => handleComplete(order._id)}
+                      >
                         Mark as Completed
                       </button>
                     )}
                   </td>
                   <td>
-                    <img className="message-m" src="./img/message.png" alt="Message" onClick={() => handleContact(order)} />
+                    <img
+                      className="message-m"
+                      src="./img/message.png"
+                      alt="Message"
+                      onClick={() => handleContact(order)}
+                    />
                   </td>
                 </tr>
               ))}
