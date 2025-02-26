@@ -32,13 +32,21 @@ export const getUsers = async (req, res, next) => {
 };
 
 export const getUser = async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  res.status(200).send(user);
+};
+
+export const updateUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return next(createError(404, "User not found"));
-    }
-    res.status(200).send(user);
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { pendingOrders: req.body.pendingOrders }, 
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: "Error updating pending orders count" });
   }
 };

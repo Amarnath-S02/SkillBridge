@@ -18,27 +18,13 @@
         font-size: 24px;
         font-weight: bold;
       }
-
-      button {
-        background-color: #1dbf73;
-        color: white;
-        font-weight: 500;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.3s;
-
-        &:hover {
-          background-color: #17a864;
-        }
-      }
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       border: 1px solid #ddd;
+      font-size: 16px;
 
       th, td {
         text-align: left;
@@ -73,7 +59,7 @@
           width: 37px;
           height: 37px;
           cursor: pointer;
-          transition: opacity 0.3s;
+          transition: opacity 0.3s ease-in-out;
           display: block;
           margin: auto;
 
@@ -82,14 +68,78 @@
           }
         }
 
-        &.completed {
-          color: green;
+        // Status Colors
+        &.pending {
+          color: orange;
           font-weight: bold;
         }
 
         &.in-progress {
-          color: orange;
+          color: #007bff;
           font-weight: bold;
+        }
+
+        &.completed {
+          color: green;
+          font-weight: bold;
+        }
+      }
+
+      // Hide Action column for buyers
+      .action-column {
+        display: none;
+      }
+
+      // Show Action column only for sellers
+      .is-seller {
+        display: table-cell;
+      }
+
+      // Complete Button (only for sellers)
+      .complete-btn {
+        background-color: #28a745;
+        color: white;
+        font-weight: 500;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+
+        &:hover {
+          background-color: #218838;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .orders {
+    .container {
+      padding: 20px;
+
+      table {
+        font-size: 14px;
+
+        th, td {
+          padding: 8px;
+        }
+
+        .image {
+          width: 40px;
+          height: 40px;
+        }
+
+        .message-m {
+          width: 30px;
+          height: 30px;
+        }
+
+        .complete-btn {
+          padding: 6px 10px;
+          font-size: 13px;
         }
       }
     }

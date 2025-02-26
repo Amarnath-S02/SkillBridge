@@ -8,8 +8,10 @@ const GigCard = ({ item }) => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["gigUser", item.userId],
     queryFn: () =>
-      item.userId ? newRequest.get(`/users/${item.userId}`).then((res) => res.data) : null,
-    enabled: !!item.userId,
+      item.userId && /^[a-fA-F0-9]{24}$/.test(item.userId) // Check if it's a valid ObjectId
+        ? newRequest.get(`/users/${item.userId}`).then((res) => res.data)
+        : null,
+    enabled: !!item.userId && /^[a-fA-F0-9]{24}$/.test(item.userId),
   });
 
   // Function to truncate description after 2 lines (Approx. 100 characters)

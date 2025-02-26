@@ -13,9 +13,8 @@ const AdminSidebar = () => {
       </button>
       <ul>
         <li>
-          <Link to="/admin">
-            <Home size={20} /> {!isCollapsed && "Home"}
-          </Link>
+        <Link to="/admin"> <Home size={20} /> {!isCollapsed && "Home"} </Link> 
+
         </li>
         <li>
           <Link to="/admin/users">

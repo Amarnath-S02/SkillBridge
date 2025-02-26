@@ -23,35 +23,33 @@ export const register = async (req, res, next) => {
 // ✅ User Login
 export const login = async (req, res, next) => {
     try {
-        const user = await User.findOne({ username: req.body.username });
-
-        if (!user) {
-            return next(createError(404, "User not found!"));
-        }
-
-        const isCorrect = bcrypt.compareSync(req.body.password, user.password);
-
-        if (!isCorrect) {
-            return next(createError(400, "Wrong password or Username!"));
-        }
-
-        const token = jwt.sign(
-            { id: user._id, isSeller: user.isSeller },
-            process.env.JWT_SECRET,
-            { expiresIn: "1d" }
-        );
-
-        const { password, ...info } = user._doc;
-
-        res.cookie("accessToken", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "None"
-        }).status(200).json(info);
-    } catch (error) {
-        next(error);
+      const user = await User.findOne({ username: req.body.username });
+  
+      if (!user) return next(createError(404, "User not found!"));
+  
+      const isCorrect = bcrypt.compareSync(req.body.password, user.password);
+      if (!isCorrect)
+        return next(createError(400, "Wrong password or username!"));
+  
+      const token = jwt.sign(
+        {
+          id: user._id,
+          isSeller: user.isSeller,
+        },
+        process.env.JWT_KEY
+      );
+  
+      const { password, ...info } = user._doc;
+      res
+        .cookie("accessToken", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .send(info);
+    } catch (err) {
+      next(err);
     }
-};
+  };
 
 // ✅ User Logout
 export const logout = (req, res) => {
@@ -111,4 +109,19 @@ export const loginAdmin = async (req, res) => {
       console.error("Login Admin Error:", error); // Log any errors
       res.status(500).json({ message: "Server Error", error });
   }
+};
+
+export const logoutAdmin = (req, res) => {
+    try {
+        res.cookie("accessToken", "", { 
+            httpOnly: true, 
+            secure: process.env.NODE_ENV === "production", 
+            sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+            expires: new Date(0) // Force cookie expiration
+        });
+
+        res.status(200).json({ message: "Admin has been logged out." });
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong." });
+    }
 };
