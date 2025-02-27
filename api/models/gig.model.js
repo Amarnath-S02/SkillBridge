@@ -6,6 +6,7 @@ const GigSchema = new Schema(
     userId: {
       type: String,
       required: true,
+      
     },
     title: {
       type: String,

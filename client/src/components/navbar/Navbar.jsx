@@ -39,7 +39,7 @@ function Navbar() {
       <div className="container">
         <div className="logo">
           <Link className="link" to="/">
-            <span className="text"><i>SkillBrdige</i></span>
+            <span className="text"><i>SkillBridge</i></span>
           </Link>
           <span className="dot"></span>
         </div>

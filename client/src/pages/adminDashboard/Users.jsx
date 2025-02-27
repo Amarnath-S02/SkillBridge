@@ -1,4 +1,3 @@
-// Users.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Users.scss";
@@ -28,9 +27,7 @@ const Users = () => {
 
   const removeUser = async (id) => {
     try {
-      console.log("Cookies:", document.cookie); // Log cookies
-      const token = getCookie("accessToken");
-      console.log("Token:", token); // Log token
+      const token = localStorage.getItem("adminToken");
 
       if (!token) {
         console.error("No access token found!");
@@ -72,7 +69,6 @@ const Users = () => {
     );
     setFilteredUsers(filtered);
   };
-  console.log(getCookie("accessToken"));
 
   return (
     <div className="users">

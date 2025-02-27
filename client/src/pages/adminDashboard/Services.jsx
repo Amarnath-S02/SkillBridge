@@ -22,7 +22,7 @@ const Services = () => {
         const userResponses = await Promise.all(
           userIds.map((id) => axios.get(`http://localhost:3000/api/users/${id}`))
         );
-        
+
         const usersData = userResponses.reduce((acc, res) => {
           acc[res.data._id] = res.data;
           return acc;
@@ -54,6 +54,19 @@ const Services = () => {
     );
     setFilteredServices(filtered);
   };
+
+  const removeService = async (id) => {
+    if (!window.confirm("Are you sure you want to remove this service?")) return;
+
+    try {
+      await axios.delete(`http://localhost:3000/api/gigs/admin/delete/${id}`);
+      setFilteredServices(filteredServices.filter(service => service._id !== id));
+      setServices(services.filter(service => service._id !== id));
+    } catch (error) {
+      console.error("Error deleting service:", error);
+    }
+  };
+
 
   return (
     <div className="services-page">

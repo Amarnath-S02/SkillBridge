@@ -36,8 +36,8 @@ const AdminDashboard = () => {
           axios.get("http://localhost:3000/api/gigs"),
         ]);
 
-        // User Statistics
-        const users = userRes.data;
+        // Filter out admin users
+        const users = userRes.data.filter(user => user.isAdmin !== true);
         const totalUsers = users.length;
         const sellers = users.filter(user => user.isSeller).length;
         const buyers = totalUsers - sellers;
@@ -159,7 +159,6 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
-
             </>
           )}
 

@@ -42,17 +42,27 @@ export const intent = async (req, res, next) => {
 };
 
 // ✅ Fetch orders correctly (for both Buyer and Seller)
-export const getOrders = async (req, res, next) => {
+// In order.controller.js
+
+export const getOrders = async (req, res) => {
+  const { sellerId } = req.query;
+
   try {
-    const orders = await Order.find({
-      $or: [{ buyerId: req.userId }, { sellerId: req.userId }],
-    });
+    let orders;
+    if (sellerId) {
+      // If sellerId is provided, filter orders by sellerId
+      orders = await Order.find({ sellerId });
+    } else {
+      // If no sellerId is provided, return all orders (or any other default behavior)
+      orders = await Order.find();
+    }
 
     res.status(200).json(orders);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch orders" });
   }
 };
+
 
 // ✅ Confirm Payment and Start Processing Order
 export const confirm = async (req, res, next) => {

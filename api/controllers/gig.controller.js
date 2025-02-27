@@ -4,12 +4,13 @@ import createError from "../utils/createError.js";
 import User from "../models/user.model.js";
 
 export const createGig = async (req, res, next) => {
+  // Use req.isSeller instead of req.user.isSeller
   if (!req.isSeller) {
     return next(createError(403, "Only sellers can create a gig!"));
   }
 
   const newGig = new Gig({
-    userId: req.user.id, // ✅ Ensure correct userId
+    userId: req.userId, // Use req.userId from the JWT payload
     ...req.body,
   });
 
@@ -33,11 +34,23 @@ export const deleteGig = async (req, res, next) => {
     next(err);
   }
 };
+
 export const getGig = async (req, res, next) => {
   try {
     const gig = await Gig.findById(req.params.id);
     if (!gig) next(createError(404, "Gig not found!"));
     res.status(200).send(gig);
+  } catch (err) {
+    next(err);
+  }
+};
+export const deleteGigByAdmin = async (req, res, next) => {
+  try {
+    const gig = await Gig.findById(req.params.id);
+    if (!gig) return next(createError(404, "Gig not found!"));
+
+    await Gig.findByIdAndDelete(req.params.id);
+    res.status(200).send("Gig has been deleted by admin!");
   } catch (err) {
     next(err);
   }

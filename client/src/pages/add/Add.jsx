@@ -66,14 +66,14 @@ const Add = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!state.title || !state.cat || !state.price) {
       alert("Title, Category, and Price are required!");
       return;
     }
-
-    mutation.mutate(state);
+  
+    mutation.mutate(state); // Send state as-is if backend checks `req.isSeller`
   };
+  
 
   return (
     <div className="add">
