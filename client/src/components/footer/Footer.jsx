@@ -19,13 +19,13 @@ function Footer() {
           <div className="item">
             <h2>Contact</h2>
             <span>
-              <img src="/img/email.png" alt="Email Icon" /> skamar003@mail.com
+              <img src="/img/email.png" alt="Email Icon" /> s******@mail.com
             </span>
             <span>
-              <img src="/img/telephone.png" alt="Phone Icon" /> 9361136165
+              <img src="/img/telephone.png" alt="Phone Icon" /> 936*****165
             </span>
             <span>
-              <img src="/img/location.png" alt="Location Icon" /> Coimbatore
+              <img src="/img/location.png" alt="Location Icon" /> ***********
             </span>
           </div>
 

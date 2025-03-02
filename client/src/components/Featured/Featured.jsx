@@ -10,7 +10,9 @@ function Featured() {
   const handleSubmit = () => {
     navigate(`/gigs?search=${input}`);
   };
-
+  const handleCategoryClick = (category) => {
+    navigate(`/gigs?cat=${encodeURIComponent(category)}`);
+  };
 
   return (
     <div className="featured">
@@ -36,10 +38,10 @@ function Featured() {
           {/* Popular Section */}
           <div className="popular">
             <span>Popular:</span>
-            <button>AI Services</button>
-            <button>Video & Animation</button>
-            <button>Graphics & Design</button>
-            <button>Logo Design</button>
+            <button onClick={() => handleCategoryClick("AI Services")}>AI Services</button>
+      <button onClick={() => handleCategoryClick("Video & Animation")}>Video & Animation</button>
+      <button onClick={() => handleCategoryClick("Graphics & Design")}>Graphics & Design</button>
+      <button onClick={() => handleCategoryClick("Logo Design")}>Logo Design</button>
           </div>
         </div>
 

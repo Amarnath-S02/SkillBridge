@@ -7,6 +7,7 @@ const Users = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [confirmDialog, setConfirmDialog] = useState({ show: false, userId: null });
 
   useEffect(() => {
     fetchUsers();
@@ -52,12 +53,6 @@ const Users = () => {
     }
   };
 
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
-  }
-
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
@@ -65,9 +60,24 @@ const Users = () => {
       (user) =>
         user.username.toLowerCase().includes(query) ||
         user.email.toLowerCase().includes(query) ||
-        (user.isSeller ? "seller" : "buyer").includes(query)
+        (user.isSeller ? "freelancer" : "client").includes(query)
     );
     setFilteredUsers(filtered);
+  };
+
+  const confirmDelete = (id) => {
+    setConfirmDialog({ show: true, userId: id });
+  };
+
+  const handleConfirm = () => {
+    if (confirmDialog.userId) {
+      removeUser(confirmDialog.userId);
+    }
+    setConfirmDialog({ show: false, userId: null });
+  };
+
+  const handleCancel = () => {
+    setConfirmDialog({ show: false, userId: null });
   };
 
   return (
@@ -98,11 +108,11 @@ const Users = () => {
                 <tr key={user._id}>
                   <td>{user.username}</td>
                   <td>{user.email}</td>
-                  <td>{user.isSeller ? "Seller" : "Buyer"}</td>
+                  <td>{user.isSeller ? "Freelancer" : "Client"}</td>
                   <td>
                     <button
                       className="remove-btn"
-                      onClick={() => removeUser(user._id)}
+                      onClick={() => confirmDelete(user._id)}
                     >
                       Remove
                     </button>
@@ -111,6 +121,14 @@ const Users = () => {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+      
+      {confirmDialog.show && (
+        <div className="dialog-box">
+          <p>Are you sure you want to delete this user?</p>
+          <button className="confirm-btn" onClick={handleConfirm}>Yes</button>
+          <button className="cancel-btn" onClick={handleCancel}>No</button>
         </div>
       )}
     </div>

@@ -93,7 +93,7 @@ function Navbar() {
               <Link className="link menuLink" to="/gigs?cat=design">
                 <i>Graphics & Design</i>
               </Link>
-              <Link className="link menuLink" to="/gigs?cat=design">
+              <Link className="link menuLink" to="/gigs?cat=video-animation">
                 <i>Video & Animation</i>
               </Link>
               <Link className="link menuLink" to="/gigs?cat=design">

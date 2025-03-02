@@ -94,16 +94,16 @@ const Add = () => {
             <select name="cat" id="cat" onChange={handleChange} required>
               <option value="">Select a category</option>
 
-              <option value="design">design</option>
+              <option value="ggraphic & Design">design</option>
 
-              <option value="video-animation">Video & Animation</option>
-              <option value="writing-translation">Writing & Translation</option>
-              <option value="ai-services">AI Services</option>
-              <option value="digital-marketing">Digital Marketing</option>
-              <option value="music-audio">Music & Audio</option>
-              <option value="programming-tech">Programming & Tech</option>
-              <option value="business">Business</option>
-              <option value="lifestyle">Lifestyle</option>
+              <option value="Video & Animation">Video & Animation</option>
+              <option value="Writing-Translation">Writing & Translation</option>
+              <option value="Ai-Services">AI Services</option>
+              <option value="Digital-Marketing">Digital Marketing</option>
+              <option value="Music-Audio">Music & Audio</option>
+              <option value="Programming-Tech">Programming & Tech</option>
+              <option value="Business">Business</option>
+              <option value="Lifestyle">Lifestyle</option>
             </select>
 
             <div className="images">

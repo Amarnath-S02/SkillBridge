@@ -2,14 +2,27 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Services.scss";
 
+const categories = [
+  "Graphics & Design",
+  "Video & Animation",
+  "Writing & Translation",
+  "AI Services",
+  "Digital Marketing",
+  "Music & Audio",
+  "Programming & Tech",
+  "Business",
+  "Lifestyle",
+];
+
 const Services = () => {
   const [services, setServices] = useState([]);
   const [users, setUsers] = useState({});
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [filteredServices, setFilteredServices] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -39,34 +52,54 @@ const Services = () => {
     fetchServices();
   }, []);
 
-  const handleSearch = () => {
-    const query = searchQuery.toLowerCase();
-    const min = minPrice ? parseFloat(minPrice) : 0;
-    const max = maxPrice ? parseFloat(maxPrice) : Infinity;
+  useEffect(() => {
+    filterServices(); // Automatically filter whenever inputs change
+  }, [searchQuery, selectedCategory]);
 
-    const filtered = services.filter(
-      (service) =>
-        (service.title.toLowerCase().includes(query) ||
-          service.userId.toLowerCase().includes(query) ||
-          service.cat.toLowerCase().includes(query)) &&
-        service.price >= min &&
-        service.price <= max
-    );
+  const filterServices = () => {
+    let filtered = services;
+
+    if (searchQuery) {
+      filtered = filtered.filter((service) => {
+        const freelancerName = users[service.userId]?.username?.toLowerCase() || "";
+        const serviceTitle = service.title.toLowerCase();
+        return (
+          freelancerName.includes(searchQuery.toLowerCase()) ||
+          serviceTitle.includes(searchQuery.toLowerCase())
+        );
+      });
+    }
+
+    if (selectedCategory) {
+      filtered = filtered.filter((service) => service.cat === selectedCategory);
+    }
+
     setFilteredServices(filtered);
   };
 
-  const removeService = async (id) => {
-    if (!window.confirm("Are you sure you want to remove this service?")) return;
-
-    try {
-      await axios.delete(`http://localhost:3000/api/gigs/admin/delete/${id}`);
-      setFilteredServices(filteredServices.filter(service => service._id !== id));
-      setServices(services.filter(service => service._id !== id));
-    } catch (error) {
-      console.error("Error deleting service:", error);
-    }
+  const openModal = (service) => {
+    setSelectedService(service);
+    setShowModal(true);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedService(null);
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedService) return;
+
+    try {
+      await axios.delete(`http://localhost:3000/api/gigs/admin/delete/${selectedService._id}`);
+      setFilteredServices(filteredServices.filter(service => service._id !== selectedService._id));
+      setServices(services.filter(service => service._id !== selectedService._id));
+    } catch (error) {
+      console.error("Error deleting service:", error);
+    } finally {
+      closeModal();
+    }
+  };
 
   return (
     <div className="services-page">
@@ -79,22 +112,19 @@ const Services = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="search-input"
         />
-        <input
-          type="number"
-          placeholder="Min Price"
-          value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
-          className="price-input"
-        />
-        <input
-          type="number"
-          placeholder="Max Price"
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
-          className="price-input"
-        />
-        <button onClick={handleSearch} className="filter-btn">Search</button>
+        
+        <select 
+          value={selectedCategory} 
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="category-dropdown"
+        >
+          <option value="">All Categories</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>{category}</option>
+          ))}
+        </select>
       </div>
+
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -102,7 +132,7 @@ const Services = () => {
           <table>
             <thead>
               <tr>
-                <th>Seller</th>
+                <th>Freelancer</th>
                 <th>Service Title</th>
                 <th>Category</th>
                 <th>Price</th>
@@ -117,7 +147,7 @@ const Services = () => {
                   <td>{service.cat}</td>
                   <td>₹{service.price}</td>
                   <td>
-                    <button className="remove-btn" onClick={() => removeService(service._id)}>
+                    <button className="remove-btn" onClick={() => openModal(service)}>
                       Remove
                     </button>
                   </td>
@@ -125,6 +155,19 @@ const Services = () => {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Confirm Deletion</h3>
+            <p>Are you sure you want to delete this service?</p>
+            <div className="modal-actions">
+              <button className="confirm-btn" onClick={confirmDelete}>Yes, Delete</button>
+              <button className="cancel-btn" onClick={closeModal}>Cancel</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

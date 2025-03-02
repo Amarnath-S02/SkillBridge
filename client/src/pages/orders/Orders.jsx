@@ -18,7 +18,7 @@ const Orders = () => {
     },
   });
 
-  // Mutation to update order status for both seller and buyer
+  // Mutation to update order status
   const updateOrderStatus = useMutation({
     mutationFn: async (orderId) => {
       await newRequest.put(`/orders/${orderId}/complete`);
@@ -28,13 +28,11 @@ const Orders = () => {
 
       const previousOrders = queryClient.getQueryData(["orders"]);
 
-      // Optimistically update UI for both seller and buyer
+      // Optimistically update UI
       queryClient.setQueryData(["orders"], (oldData) =>
         oldData
           ? oldData.map((order) =>
-              order._id === orderId
-                ? { ...order, status: "completed" }
-                : order
+              order._id === orderId ? { ...order, status: "completed" } : order
             )
           : []
       );
@@ -71,21 +69,21 @@ const Orders = () => {
     }
   };
 
+  // Filter orders properly to remove duplicates
   const filteredOrders = data
-    ? Object.values(
-        data.reduce((acc, order) => {
-          // If an order already exists in acc with status "in-progress", update it only if it's now "completed"
-          if (!acc[order._id] || acc[order._id].status === "in-progress") {
-            acc[order._id] = order;
-          }
-          return acc;
-        }, {})
-      ).filter((order) => {
+    ? data.filter((order, index, self) => {
         if (currentUser.isSeller) {
+          // Sellers see only "pending" and "completed"
           return order.status === "pending" || order.status === "completed";
         } else {
-          // Buyers should see "in-progress" until it's marked as "completed"
-          return order.status === "in-progress" || order.status === "completed";
+          // Buyers see only "in-progress" until completed
+          return (
+            order.status === "in-progress" ||
+            (order.status === "completed" &&
+              !self.some(
+                (o) => o._id === order._id && o.status === "in-progress"
+              ))
+          );
         }
       })
     : [];
