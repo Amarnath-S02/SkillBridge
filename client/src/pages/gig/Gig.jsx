@@ -136,7 +136,19 @@ function Gig() {
                   <span>{feature}</span>
                 </div>
               ))}
+
+      <div className="details-row">
+              <div className="item">
+              <img src="/img/clock.png" alt="" />
+              <span>{data.deliveryTime} Days Delivery</span>
             </div>
+            <div className="item">
+              <img src="/img/recycle.png" alt="" />
+              <span>{data.revisionNumber} Revisions</span>
+            </div>
+       </div>    
+            </div>
+
             {currentUser && currentUser._id !== data.userId && (
               <Link to={`/pay/${id}`}>
                 <button>Continue</button>
