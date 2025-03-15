@@ -8,76 +8,89 @@ import { useLocation } from "react-router-dom";
 function Gigs() {
   const [sort, setSort] = useState("sales");
   const [open, setOpen] = useState(false);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
   const minRef = useRef();
   const maxRef = useRef();
 
   const { search } = useLocation();
 
+  // ✅ Debug: Check URL parameters
+  console.log("Current Search Params:", search);
+
+  // ✅ Build query dynamically
+  const getQueryParams = () => {
+    let query = `${search}`;
+    if (minPrice !== "") query += `&min=${minPrice}`;
+    if (maxPrice !== "") query += `&max=${maxPrice}`;
+    if (sort) query += `&sort=${sort}`;
+    return query;
+  };
+  
+
+  // ✅ Debug: Log the query before fetching
+  console.log("Final API Query:", `/gigs${getQueryParams()}`);
+
+  // ✅ Fetch gigs with filtering
   const { isLoading, error, data, refetch } = useQuery({
-    queryKey: ["gigs"],
-    queryFn: () =>
-      newRequest
-        .get(
-          `/gigs${search}&min=${minRef.current.value}&max=${maxRef.current.value}&sort=${sort}`
-        )
-        .then((res) => {
-          return res.data;
-        }),
+    queryKey: ["gigs", sort, minPrice, maxPrice],
+    queryFn: async () => {
+      console.log("Fetching data from:", `/gigs${getQueryParams()}`);
+      const res = await newRequest.get(`/gigs${getQueryParams()}`);
+      return res.data;
+    },
+    enabled: true, // Ensure query runs initially
   });
 
-  console.log(data);
-
-  const reSort = (type) => {
-    setSort(type);
-    setOpen(false);
-  };
-
   useEffect(() => {
+    console.log("Re-fetching data...");
     refetch();
-  }, [sort]);
+  }, [sort, minPrice, maxPrice]); // ✅ Runs when filters change
 
+  // ✅ Button Click Handler
   const apply = () => {
-    refetch();
+    const min = minRef.current.value;
+    const max = maxRef.current.value;
+  
+    // ✅ Debugging
+    console.log("Applying Filters - Min:", min, "Max:", max); 
+  
+    // ✅ Update state so useEffect triggers re-fetch
+    setMinPrice(min);
+    setMaxPrice(max);
   };
+  
+  
 
   return (
     <div className="gigs">
       <div className="container">
-        <span className="breadcrumbs">  </span>
-        <h1>Graphics & Design</h1>
-        {/* <p>
-          Explore the boundaries of art and technology with Liverr's AI artists
-        </p> */}
+        <span className="breadcrumbs">SkillBridge {">"} </span>
+        <h1>Explore Gigs</h1>
+
         <div className="menu">
           <div className="left">
             <span>Budget</span>
-            <input ref={minRef} type="number" placeholder="min" />
-            <input ref={maxRef} type="number" placeholder="max" />
-            <button onClick={apply}>Apply</button>
+            <input ref={minRef} type="number" placeholder="Min" />
+            <input ref={maxRef} type="number" placeholder="Max" />
+            <button onClick={apply}>Apply</button> {/* ✅ Now debuggable */}
           </div>
           <div className="right">
             <span className="sortBy">Sort by</span>
-            <span className="sortType">
-              {sort === "sales" ? "Best Selling" : "Newest"}
-            </span>
-            <img src="./img/down.png" alt="" onClick={() => setOpen(!open)} />
+            <span className="sortType">{sort === "sales" ? "Best Selling" : "Newest"}</span>
+            <img src="./img/down.png" alt="Sort" onClick={() => setOpen(!open)} />
             {open && (
               <div className="rightMenu">
-                {sort === "sales" ? (
-                  <span onClick={() => reSort("createdAt")}>Newest</span>
-                ) : (
-                  <span onClick={() => reSort("sales")}>Best Selling</span>
-                )}
-                <span onClick={() => reSort("sales")}>Popular</span>
+                <span onClick={() => setSort("createdAt")}>Newest</span>
+                <span onClick={() => setSort("sales")}>Best Selling</span>
               </div>
             )}
           </div>
         </div>
+
         <div className="cards">
-          {isLoading
-            ? "loading"
-            : error
-            ? "Something went wrong!"
+          {isLoading ? "Loading..."
+            : error ? `Error: ${error.message}`
             : data.map((gig) => <GigCard key={gig._id} item={gig} />)}
         </div>
       </div>

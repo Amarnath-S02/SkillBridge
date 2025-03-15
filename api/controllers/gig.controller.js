@@ -58,25 +58,43 @@ export const deleteGigByAdmin = async (req, res, next) => {
 
 export const getGigs = async (req, res, next) => {
   const q = req.query;
+
+  // ✅ Log query params for debugging
+  console.log("Received Query Params:", q);
+
+  // ✅ Convert min/max to numbers and set defaults
+  const min = q.min ? Number(q.min) : 0; // Default min: 0
+  const max = q.max ? Number(q.max) : Infinity; // Default max: Infinity
+
+  console.log("Processed Min:", min, "Max:", max); // Debugging
+
+  // ✅ Apply filters
   const filters = {
     ...(q.userId && { userId: q.userId }),
     ...(q.cat && { cat: q.cat }),
-    ...((q.min || q.max) && {
-      price: {
-        ...(q.min && { $gte: q.min }), // ✅ Use $gte (greater than or equal to)
-        ...(q.max && { $lte: q.max }), // ✅ Use $lte (less than or equal to)
-      },
-    }),
     ...(q.search && { title: { $regex: q.search, $options: "i" } }),
+    ...(q.min || q.max ? { price: { $gte: min, $lte: max } } : {}), // Apply only if min/max exist
   };
 
+  console.log("Final Filters Applied:", JSON.stringify(filters, null, 2)); // Debugging
+
   try {
-    const gigs = await Gig.find(filters).populate("userId", "username img").sort({ [q.sort]: -1 });
+    const gigs = await Gig.find(filters)
+      .populate("userId", "username img")
+      .sort({ [q.sort]: -1 });
+
+    console.log("Number of gigs found:", gigs.length);
+
     res.status(200).json(gigs);
   } catch (err) {
+    console.error("Error fetching gigs:", err);
     next(err);
   }
 };
+
+
+
+
 
 export const getAllGigs = async (req, res, next) => {
   try {

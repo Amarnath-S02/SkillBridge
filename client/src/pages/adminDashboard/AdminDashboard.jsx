@@ -80,18 +80,18 @@ const AdminDashboard = () => {
             <>
               <h2><i>User & Service Statistics</i></h2>
 
+              {/* User Distribution Chart */}
               <div className="charts-container">
                 <div className="chart-box user-distribution">
                   <h3>User Distribution</h3>
                   <div className="chart-content">
                     <ResponsiveContainer width={400} height={300}>
                       <BarChart data={barChartDataUsers} barSize={30}>
-                        <XAxis dataKey="name"  />
+                        <XAxis dataKey="name" />
                         <YAxis />
                         <Tooltip />
                         <Legend />
                         <Bar dataKey="No Of Users" fill="#007bff" />
-
                       </BarChart>
                     </ResponsiveContainer>
 
@@ -113,19 +113,28 @@ const AdminDashboard = () => {
                 </div>
               </div>
 
+              {/* Service Distribution Chart */}
               <div className="charts-container">
                 <div className="chart-box service-distribution">
                   <h3>Service Categories</h3>
                   <div className="chart-content">
                     {serviceCategories.length > 0 ? (
-                      <ResponsiveContainer width={300} height={300}>
+                      <ResponsiveContainer width={350} height={350}>
                         <PieChart>
-                          <Pie data={serviceCategories} cx="50%" cy="50%" outerRadius={100} dataKey="value" label>
+                          <Pie 
+                            data={serviceCategories} 
+                            cx="50%" 
+                            cy="45%" 
+                            outerRadius={110} 
+                            dataKey="value" 
+                            label 
+                            labelLine={false} // Removes extra lines connecting labels
+                          >
                             {serviceCategories.map((entry, index) => (
                               <Cell key={`cell-${index}`} fill={entry.color} />
                             ))}
                           </Pie>
-                          <Legend />
+                          <Legend layout="horizontal" align="center" verticalAlign="bottom" />
                           <Tooltip />
                         </PieChart>
                       </ResponsiveContainer>

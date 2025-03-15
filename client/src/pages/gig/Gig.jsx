@@ -25,7 +25,7 @@ function Gig() {
     enabled: !!userId, // Fetch only if userId is available
   });
 
-  // Fetch seller's orders (using seller's userId from gig)
+  // Fetch seller's orders
   const { isLoading: isLoadingOrders, error: errorOrders, data: orders } = useQuery({
     queryKey: ["orders", userId],
     queryFn: async () => {
@@ -40,6 +40,7 @@ function Gig() {
   const sellerOrders = orders || [];
   const pendingOrders = sellerOrders.filter((order) => order.status === "pending").length;
   const completedOrders = sellerOrders.filter((order) => order.status === "completed").length;
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   return (
     <div className="gig">
@@ -50,7 +51,7 @@ function Gig() {
       ) : (
         <div className="container">
           <div className="left">
-            <span className="breadcrumbs">SkillBridge {">"} Graphics & Design {">"}</span>
+            <span className="breadcrumbs">SkillBridge</span>
             <h1>{data.title}</h1>
 
             {/* Seller Info */}
@@ -87,7 +88,10 @@ function Gig() {
                 <img src={dataUser?.img || "/img/noavatar.jpg"} alt="User" />
                 <div className="info">
                   <span>{dataUser?.username || "Unknown User"}</span>
-                  <button>Contact Me</button>
+                  <button onClick={() => window.location.href = `mailto:${dataUser?.email}`}>
+                      Contact Me
+                    </button>
+
                 </div>
               </div>
 
@@ -125,9 +129,19 @@ function Gig() {
               <h2>₹ {data.price}</h2>
             </div>
             <p>{data.shortDesc}</p>
-            <Link to={`/pay/${id}`}>
-              <button>Continue</button>
-            </Link>
+            <div className="features">
+              {data.features.map((feature) => (
+                <div className="item" key={feature}>
+                  <img src="/img/check2.png" alt="" />
+                  <span>{feature}</span>
+                </div>
+              ))}
+            </div>
+            {currentUser && currentUser._id !== data.userId && (
+              <Link to={`/pay/${id}`}>
+                <button>Continue</button>
+              </Link>
+            )}
           </div>
         </div>
       )}

@@ -4,7 +4,6 @@
   justify-content: center;
   height: 100vh;
   background-color: #f9f9f9;
-  
 
   form {
     width: 360px;
@@ -14,7 +13,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    margin-top: -90px; 
+    margin-top: -90px;
     gap: 12px;
 
     h1 {
@@ -38,7 +37,7 @@
 
       input {
         width: 100%;
-        height: 20px; /* Adjusted height */
+        height: 40px;
         padding: 8px;
         font-size: 14px;
         border: 1px solid #ccc;
@@ -67,6 +66,17 @@
       }
     }
 
+    .error-message {
+      color: red;
+      font-size: 14px;
+      text-align: center;
+      margin-top: -5px;
+      background: #ffe6e6;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid red;
+    }
+
     a {
       text-align: center;
       font-size: 13px;
@@ -93,6 +103,11 @@
 
       &:hover {
         background-color: #0056b3;
+      }
+
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
       }
     }
   }

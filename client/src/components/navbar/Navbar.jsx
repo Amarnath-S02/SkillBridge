@@ -46,8 +46,20 @@ function Navbar() {
         <div className="links">
           <span>Business</span>
           <span>Explore</span>
-          <span>Blog</span>
-          {!currentUser?.isSeller && <span>Become a Seller</span>}
+          <Link 
+            className="link2" 
+            to="/blog" 
+            style={{ color: "white", textDecoration: "none" }}>
+            <span>Blog</span> 
+          </Link>
+
+
+          {currentUser !== null && !currentUser?.isSeller && (
+            <Link className="link" to="/become-seller" style={{ color: "white", textDecoration: "none" }}>
+              Become a Seller
+            </Link>
+          )}
+
           {currentUser ? (
             <div className="user" onClick={() => setOpen(!open)}>
               <img src={currentUser.img || "/img/noavatar.jpg"} alt="" />
@@ -90,31 +102,31 @@ function Navbar() {
         <>
           <hr />
             <div className="menu">
-              <Link className="link menuLink" to="/gigs?cat=design">
+              <Link className="link menuLink" to="/gigs?cat=graphic-design">
                 <i>Graphics & Design</i>
               </Link>
               <Link className="link menuLink" to="/gigs?cat=video-animation">
                 <i>Video & Animation</i>
               </Link>
-              <Link className="link menuLink" to="/gigs?cat=design">
+              <Link className="link menuLink" to="/gigs?cat=writing-translation">
                 <i>Writing & Translation</i>
               </Link>
-              <Link className="link menuLink" to="/gigs?cat=design">
+              <Link className="link menuLink" to="/gigs?cat=ai-services">
                 <i>AI Services</i>
               </Link>
-              <Link className="link menuLink" to="/gigs?cat=design">
+              <Link className="link menuLink" to="/gigs?cat=digital-marketing">
                 <i>Digital Marketing</i>
               </Link>
-              <Link className="link menuLink" to="/gigs?cat=design">
+              <Link className="link menuLink" to="/gigs?cat=music-audio">
                 <i>Music & Audio</i>
               </Link>
-              <Link className="link menuLink" to="/gigs?cat=design">
+              <Link className="link menuLink" to="/gigs?cat=programming-tech">
                 <i>Programming & Tech</i>
               </Link>
-              <Link className="link menuLink" to="/gigs?cat=design">
+              <Link className="link menuLink" to="/gigs?cat=business">
                 <i>Business</i>
               </Link>
-              <Link className="link menuLink" to="/gigs?cat=design">
+              <Link className="link menuLink" to="/gigs?cat=lifestyle">
                 <i>Lifestyle</i>
               </Link>
             </div>

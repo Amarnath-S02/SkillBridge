@@ -123,12 +123,21 @@ const Users = () => {
           </table>
         </div>
       )}
-      
+
       {confirmDialog.show && (
-        <div className="dialog-box">
-          <p>Are you sure you want to delete this user?</p>
-          <button className="confirm-btn" onClick={handleConfirm}>Yes</button>
-          <button className="cancel-btn" onClick={handleCancel}>No</button>
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Confirm Deletion</h3>
+            <p>Are you sure you want to remove this user? This action cannot be undone.</p>
+            <div className="modal-actions">
+              <button className="confirm-btn" onClick={handleConfirm}>
+                Yes, Delete
+              </button>
+              <button className="cancel-btn" onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

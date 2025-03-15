@@ -37,16 +37,32 @@ export const getUser = async (req, res, next) => {
   res.status(200).send(user);
 };
 
-export const updateUser = async (req, res) => {
+export const updateUser = async (req, res, next) => {
   try {
+    const updateData = {};
+
+    if (req.body.pendingOrders !== undefined) {
+      updateData.pendingOrders = req.body.pendingOrders;
+    }
+
+    if (req.body.isSeller === true) {
+      updateData.isSeller = true;
+      updateData.phone = req.body.phone || "";
+      updateData.desc = req.body.desc || "";
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
-      { pendingOrders: req.body.pendingOrders }, 
+      updateData,
       { new: true }
     );
 
+    if (!updatedUser) {
+      return next(createError(404, "User not found!"));
+    }
+
     res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json({ message: "Error updating pending orders count" });
+    next(createError(500, "Error updating user details"));
   }
 };

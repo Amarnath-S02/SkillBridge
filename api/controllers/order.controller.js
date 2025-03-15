@@ -64,6 +64,7 @@ export const getOrders = async (req, res) => {
 };
 
 
+
 // ✅ Confirm Payment and Start Processing Order
 export const confirm = async (req, res, next) => {
   try {
@@ -85,15 +86,19 @@ export const confirm = async (req, res, next) => {
 export const completeOrder = async (req, res, next) => {
   try {
     const order = await Order.findOneAndUpdate(
-      { _id: req.params.id, sellerId: req.userId }, // Ensure seller is completing
+      { _id: req.params.id, sellerId: req.userId },
       { $set: { status: "completed" } },
       { new: true }
     );
 
     if (!order) return next(createError(404, "Order not found or unauthorized"));
 
-    res.status(200).send("Order has been completed.");
+    // ✅ Delete any duplicate "in-progress" orders (if any exist)
+    await Order.deleteMany({ status: "in-progress", buyerId: order.buyerId });
+
+    res.status(200).send("Order has been completed and in-progress order removed.");
   } catch (err) {
     next(err);
   }
 };
+

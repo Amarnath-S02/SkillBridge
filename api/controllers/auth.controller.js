@@ -25,7 +25,7 @@ export const login = async (req, res, next) => {
     try {
       const user = await User.findOne({ username: req.body.username });
   
-      if (!user) return next(createError(404, "User not found!"));
+      if (!user) return next(createError(404, "Wrong password or username!"));
   
       const isCorrect = bcrypt.compareSync(req.body.password, user.password);
       if (!isCorrect)
@@ -65,6 +65,33 @@ export const logout = (req, res) => {
         res.status(500).json({ message: "Something went wrong." });
     }
 };
+
+export const becomeSeller = async (req, res, next) => {
+    try {
+      const userId = req.userId; // Get userId from authentication middleware
+      if (!userId) {
+        return next(createError(401, "Unauthorized! Please log in."));
+      }
+  
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        {
+          isSeller: true,
+          phone: req.body.phone,
+          desc: req.body.desc,
+        },
+        { new: true }
+      );
+  
+      if (!updatedUser) {
+        return next(createError(404, "User not found!"));
+      }
+  
+      res.status(200).json({ message: "You are now a seller!", user: updatedUser });
+    } catch (err) {
+      next(err);
+    }
+  };
 
 export const loginAdmin = async (req, res) => {
   try {
@@ -123,5 +150,23 @@ export const logoutAdmin = (req, res) => {
         res.status(200).json({ message: "Admin has been logged out." });
     } catch (error) {
         res.status(500).json({ message: "Something went wrong." });
+    }
+};
+
+export const getCurrentUser = async (req, res, next) => {
+    try {
+        const token = req.cookies.accessToken;
+        if (!token) return next(createError(401, "Not authenticated!"));
+
+        jwt.verify(token, process.env.JWT_KEY, async (err, payload) => {
+            if (err) return next(createError(403, "Token is not valid!"));
+
+            const user = await User.findById(payload.id).select("-password"); // Exclude password
+            if (!user) return next(createError(404, "User not found!"));
+
+            res.status(200).json(user);
+        });
+    } catch (err) {
+        next(err);
     }
 };

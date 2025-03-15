@@ -8,7 +8,7 @@ import Home from "./pages/home/Home";
 import Gigs from "./pages/gigs/Gigs";
 import Gig from "./pages/gig/Gig";
 import Orders from "./pages/orders/Orders";
-import MyGigs from "./pages/mygigs/MyGigs";
+import MyGigs from "./pages/myGigs/MyGigs";
 import Add from "./pages/add/Add";
 import Register from "./pages/register/Register";
 import Message from "./pages/message/Message";
@@ -21,6 +21,8 @@ import Users from "./pages/adminDashboard/Users";
 import Services from "./pages/adminDashboard/Services";
 import Settings from "./pages/adminDashboard/Settings";
 import AdminLogin from "./pages/adminDashboard/adminLogin";
+import Blog from "./pages/blog/Blog";
+import BecomeSeller from "./pages/BecomeSeller/BecomeSeller";
 // ✅ Import AdminLayout
 
 import "./app.scss";
@@ -52,6 +54,8 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/pay/:id", element: <Pay /> },
       { path: "/success", element: <Success /> },
+      {path:"/blog", element:<Blog />},
+      {path:"/become-seller", element:<BecomeSeller/>} 
     ],
   },
   {
