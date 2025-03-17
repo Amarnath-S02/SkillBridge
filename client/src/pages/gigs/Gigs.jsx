@@ -4,6 +4,7 @@ import GigCard from "../../components/gigCard/GigCard";
 import { useQuery } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
 import { useLocation } from "react-router-dom";
+import { MessageSquare } from "lucide-react"; 
 
 function Gigs() {
   const [sort, setSort] = useState("sales");

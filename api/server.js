@@ -12,6 +12,7 @@ import messageRoute from "./routes/message.route.js";
 import reviewRoute from "./routes/review.route.js";
 import authRoute from "./routes/auth.route.js";
 
+
 dotenv.config();  // ✅ Load .env variables before using them
 
 const app = express();
@@ -19,6 +20,10 @@ const app = express();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+
+
+
+
 
 // ✅ Database Connection
 const connect = async () => {

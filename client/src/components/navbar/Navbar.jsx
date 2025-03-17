@@ -44,8 +44,10 @@ function Navbar() {
           <span className="dot"></span>
         </div>
         <div className="links">
-          <span>Business</span>
-          <span>Explore</span>
+       
+          <Link className="link" to="/messages"  style={{ color: "white", textDecoration: "none" }}>
+                    Messages
+                  </Link>
           <Link 
             className="link2" 
             to="/blog" 
@@ -60,42 +62,43 @@ function Navbar() {
             </Link>
           )}
 
-          {currentUser ? (
-            <div className="user" onClick={() => setOpen(!open)}>
-              <img src={currentUser.img || "/img/noavatar.jpg"} alt="" />
-              <span>{currentUser?.username}</span>
-              {open && (
-                <div className="options">
-                  {currentUser.isSeller && (
-                    <>
-                      <Link className="link" to="/mygigs">
-                        Services
-                      </Link>
-                      <Link className="link" to="/add">
-                        Add New   Services
-                      </Link>
-                    </>
-                  )}
-                  <Link className="link" to="/orders">
-                    Orders
-                  </Link>
-                  <Link className="link" to="/messages">
-                    Messages
-                  </Link>
-                  <Link className="link" onClick={handleLogout}>
-                    Logout
-                  </Link>
-                </div>
-              )}
-            </div>
-          ) : (
-            <>
-              <Link to="/login" className="link">Sign in</Link>
-              <Link className="link" to="/register">
-                <button>Join</button>
-              </Link>
-            </>
-          )}
+{currentUser ? (
+  <div className="user" onClick={() => setOpen(!open)}>
+    <img src={currentUser.img || "/img/noavatar.jpg"} alt="" />
+    <span>{currentUser?.username}</span>
+    {open && (
+      <div className="options">
+        <Link className="link" to={`/profile/${currentUser._id}`}>
+          Profile
+        </Link>
+        {currentUser.isSeller && (
+          <>
+            <Link className="link" to="/mygigs">
+              Services
+            </Link>
+            <Link className="link" to="/add">
+              Add New Services
+            </Link>
+          </>
+        )}
+        <Link className="link" to="/orders">
+          Orders
+        </Link>
+        <Link className="link" onClick={handleLogout}>
+          Logout
+        </Link>
+      </div>
+    )}
+  </div>
+) : (
+  <>
+    <Link to="/login" className="link">Sign in</Link>
+    <Link className="link" to="/register">
+      <button>Join</button>
+    </Link>
+  </>
+)}
+
         </div>
       </div>
       {(active || pathname !== "/") && (

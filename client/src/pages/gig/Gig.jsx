@@ -5,8 +5,11 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
 import Reviews from "../../components/reviews/Reviews";
+ import { useNavigate } from "react-router-dom";
 
 function Gig() {
+ 
+
   
   const { id } = useParams();
 
@@ -35,6 +38,52 @@ function Gig() {
     },
     enabled: !!userId, // Fetch only if userId is available
   });
+ 
+const navigate = useNavigate(); // Initialize navigation
+
+
+const handleContact = async () => {
+  if (!currentUser) {
+    alert("Please log in to contact the seller.");
+    return;
+  }
+
+  const sellerId = data?.userId;
+  const buyerId = currentUser?._id;
+  if (!sellerId || !buyerId) return;
+
+  const conversationId = sellerId + buyerId; // Ensure IDs are valid
+
+  try {
+    // Check if conversation already exists
+    const res = await newRequest.get(`/conversations/single/${conversationId}`);
+    console.log("Existing conversation found:", res.data);
+    navigate(`/message/${res.data.id}`);
+  } catch (err) {
+    if (err.response && err.response.status === 404) {
+      // Conversation does not exist, create a new one
+      try {
+        const res = await newRequest.post(`/conversations/`, {
+          id: conversationId,  // Ensure consistency with backend schema
+          sellerId: sellerId,
+          buyerId: buyerId,
+        });
+
+        console.log("New conversation created:", res.data);
+        navigate(`/message/${res.data.id}`);
+      } catch (createErr) {
+        console.error("Error creating conversation:", createErr);
+        alert("Failed to create conversation. Please try again later.");
+      }
+    } else {
+      console.error("Error fetching conversation:", err);
+      alert("Error checking conversation. Please try again later.");
+    }
+  }
+};
+
+
+
 
   // Filter orders to count active ("pending") and completed projects
   const sellerOrders = orders || [];
@@ -88,10 +137,7 @@ function Gig() {
                 <img src={dataUser?.img || "/img/noavatar.jpg"} alt="User" />
                 <div className="info">
                   <span>{dataUser?.username || "Unknown User"}</span>
-                  <button onClick={() => window.location.href = `mailto:${dataUser?.email}`}>
-                      Contact Me
-                    </button>
-
+                  <button onClick={handleContact}>Contact Me</button>
                 </div>
               </div>
 

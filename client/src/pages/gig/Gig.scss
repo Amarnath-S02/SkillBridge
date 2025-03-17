@@ -205,105 +205,92 @@
       top: 120px;
       background: white;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-
+    
       .price {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        h2 {
-          font-weight: 400;
-          color: #444;
-        }
-
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    
         h3 {
           font-weight: 600;
           color: #333;
+          font-size: 18px;
+        }
+    
+        h2 {
+          font-weight: 700;
+          color: #444;
+          font-size: 24px;
         }
       }
-
+    
       p {
         color: #777;
-        margin: 10px 0px;
         font-size: 14px;
+        line-height: 1.5;
       }
-
-      .details {
+    
+      .details-row {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 14px;
-
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    
         .item {
           display: flex;
           align-items: center;
           gap: 10px;
-
+          font-size: 14px;
+          font-weight: 500;
+          color: #555;
+    
           img {
             width: 18px;
           }
         }
       }
-
+    
       .features {
         display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-      
+        flex-direction: column;
+        gap: 10px;
+    
         .item {
           display: flex;
           align-items: center;
           gap: 10px;
-          font-weight: 400;
-          color: #555;
-      
+          font-size: 14px;
+          font-weight: 500;
+          color: #444;
+    
           img {
-            width: 14px;
+            width: 16px;
           }
         }
       }
-
-     
-        .details-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 20px; /* Adjust spacing */
-          margin-top: 10px;
-        }
     
-      
-      
-
       button {
         background-color: #4169e1;
         padding: 12px;
         color: white;
         font-weight: 600;
         border: none;
-        font-size: 18px;
+        font-size: 16px;
         border-radius: 6px;
         cursor: pointer;
         transition: all 0.3s ease;
-
+        text-align: center;
+        width: 100%;
+    
         &:hover {
           background-color: #00008b;
         }
       }
+    
+      @media (max-width: 1024px) {
+        position: relative;
+        width: 100%;
+      }
     }
-  }
-
-  @media (max-width: 1024px) {
-    .container {
-      flex-direction: column;
-      width: 90%;
-      gap: 20px;
-    }
-
-    .right {
-      position: relative;
-      max-height: unset;
-      width: 100%;
-    }
-  }
-}
+  }}    

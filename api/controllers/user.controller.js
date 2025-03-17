@@ -1,5 +1,8 @@
 import User from "../models/user.model.js";
 import createError from "../utils/createError.js";
+import multer from "multer";
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 export const deleteUser = async (req, res, next) => {
   try {
@@ -37,25 +40,17 @@ export const getUser = async (req, res, next) => {
   res.status(200).send(user);
 };
 
+
 export const updateUser = async (req, res, next) => {
   try {
-    const updateData = {};
+    const { id } = req.params;
+    let updateData = req.body;
 
-    if (req.body.pendingOrders !== undefined) {
-      updateData.pendingOrders = req.body.pendingOrders;
+    if (req.file) {
+      updateData.img = `uploads/${req.file.filename}`; // Store uploaded image path
     }
 
-    if (req.body.isSeller === true) {
-      updateData.isSeller = true;
-      updateData.phone = req.body.phone || "";
-      updateData.desc = req.body.desc || "";
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      { new: true }
-    );
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
 
     if (!updatedUser) {
       return next(createError(404, "User not found!"));

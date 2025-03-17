@@ -23,9 +23,11 @@ import Settings from "./pages/adminDashboard/Settings";
 import AdminLogin from "./pages/adminDashboard/adminLogin";
 import Blog from "./pages/blog/Blog";
 import BecomeSeller from "./pages/BecomeSeller/BecomeSeller";
+import Profile from "./pages/profile/Profile";
 // ✅ Import AdminLayout
 
 import "./app.scss";
+
 
 const queryClient = new QueryClient();
 
@@ -55,7 +57,8 @@ const router = createBrowserRouter([
       { path: "/pay/:id", element: <Pay /> },
       { path: "/success", element: <Success /> },
       {path:"/blog", element:<Blog />},
-      {path:"/become-seller", element:<BecomeSeller/>} 
+      {path:"/become-seller", element:<BecomeSeller/>},
+      {path:"/profile/:id" ,element:<Profile />} 
     ],
   },
   {
