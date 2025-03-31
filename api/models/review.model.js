@@ -19,6 +19,8 @@ const ReviewSchema= new Schema({
     type:String,
     required:true,
   },
+  helpfulYes: { type: Number, default: 0 },
+  helpfulNo: { type: Number, default: 0 },
  //just checkj
 
 },{

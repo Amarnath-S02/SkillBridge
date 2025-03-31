@@ -52,7 +52,7 @@ const Messages = () => {
           <table>
             <thead>
               <tr>
-                <th>{currentUser.isSeller ? "Buyer" : "Seller"}</th>
+                <th>{currentUser.isSeller ? "Client" : "Freelancer"}</th>
                 <th>Last Message</th>
                 <th>Date</th>
                 <th>Action</th>

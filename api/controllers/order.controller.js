@@ -102,3 +102,17 @@ export const completeOrder = async (req, res, next) => {
   }
 };
 
+export const checkPurchase = async (req, res, next) => {
+  try {
+    const hasPurchased = await Order.findOne({
+      gigId: req.params.gigId,
+      buyerId: req.userId, // Ensure we check by buyer ID
+    });
+
+    res.status(200).json({ purchased: !!hasPurchased });
+  } catch (err) {
+    next(err);
+  }
+};
+
+

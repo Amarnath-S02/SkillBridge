@@ -1,33 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
+import upload from "../../utils/upload";
 import newRequest from "../../utils/newRequest";
-import { useNavigate } from "react-router-dom";
 import "./BecomeSeller.scss";
 
-function BecomeSeller() {
-  const [user, setUser] = useState({
-    phone: "",
-    desc: "",
-  });
-  const [currentUser, setCurrentUser] = useState(null);
+const BecomeSeller = () => {
+  const [file, setFile] = useState(null);
   const [success, setSuccess] = useState(false);
-  const navigate = useNavigate();
-
-  // Fetch the authenticated user when the component loads
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await newRequest.get("/auth/current-user"); // Adjust based on your API
-        setCurrentUser(res.data);
-      } catch (err) {
-        console.error("Error fetching user:", err);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  const [seller, setSeller] = useState({
+    username: "",
+    phone: "",
+    description: "",
+    img: "",
+  });
 
   const handleChange = (e) => {
-    setUser((prev) => ({
+    setSeller((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -35,42 +22,54 @@ function BecomeSeller() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!currentUser || !currentUser._id) {
-      console.error("User not logged in!");
-      return;
-    }
-
+    const url = file ? await upload(file) : "";
+    const token = localStorage.getItem("token"); // Ensure user is authenticated
+  
     try {
-      await newRequest.put(`/users/${currentUser._id}`, {
-        ...user,
-        isSeller: true,
-      });
-
+      const response = await newRequest.put(
+        "/users/become-seller",
+        { ...seller, img: url }, // Correct field name
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Success:", response.data);
       setSuccess(true);
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
     } catch (err) {
-      console.log("Error updating user:", err);
+      console.error("Error updating seller profile:", err.response?.data || err);
     }
   };
+  
+  
+  
 
   return (
     <div className="become-seller">
       <form onSubmit={handleSubmit}>
-        <h1>Become a Seller</h1>
-        <label htmlFor="phone">Phone Number</label>
-        <input name="phone" type="text" onChange={handleChange} required />
+        <div className="left">
+          <h1>Become a Freelancer</h1>
+          <label htmlFor="username">Username</label>
+          <input type="text" name="username" placeholder="Enter Username" value={seller.username} onChange={handleChange} required />
+          
+          <label htmlFor="profilePicture">Profile Picture</label>
+          <input type="file" onChange={(e) => setFile(e.target.files[0])} />
 
-        <label htmlFor="desc">Description</label>
-        <textarea name="desc" cols="30" rows="5" onChange={handleChange} required></textarea>
+          <label htmlFor="phone">Phone Number</label>
+          <input type="tel" name="phone" placeholder="Phone Number" value={seller.phone} onChange={handleChange} required />
 
-        <button type="submit">Submit</button>
-        {success && <p className="success-msg">✅ You are now a seller! Redirecting...</p>}
+          <button type="submit">Submit</button>
+          {success && <p className="success-msg">✅ Profile updated successfully!</p>}
+        </div>
+
+        <div className="right">
+          <label htmlFor="description">Brief Description</label>
+          <textarea name="description" placeholder="Describe your services" value={seller.desc} onChange={handleChange} />
+        </div>
       </form>
     </div>
   );
-}
+};
 
 export default BecomeSeller;

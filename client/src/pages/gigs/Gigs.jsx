@@ -67,7 +67,7 @@ function Gigs() {
     <div className="gigs">
       <div className="container">
         <span className="breadcrumbs">SkillBridge {">"} </span>
-        <h1>Explore Gigs</h1>
+        <h1>Explore Services</h1>
 
         <div className="menu">
           <div className="left">

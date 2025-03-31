@@ -58,7 +58,7 @@ function Navbar() {
 
           {currentUser !== null && !currentUser?.isSeller && (
             <Link className="link" to="/become-seller" style={{ color: "white", textDecoration: "none" }}>
-              Become a Seller
+              Become a Freelancer
             </Link>
           )}
 
