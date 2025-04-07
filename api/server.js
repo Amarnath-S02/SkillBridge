@@ -11,6 +11,7 @@ import conversationRoute from "./routes/conversation.route.js";
 import messageRoute from "./routes/message.route.js";
 import reviewRoute from "./routes/review.route.js";
 import authRoute from "./routes/auth.route.js";
+import chatRoutes from "./routes/chat.route.js";
 
 
 dotenv.config();  // ✅ Load .env variables before using them
@@ -43,6 +44,7 @@ app.use("/api/orders", orderRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 app.use("/api/reviews", reviewRoute);
+app.use("/api/chat", chatRoutes);
 
 // ✅ Global Error Handler
 app.use((err, req, res, next) => {

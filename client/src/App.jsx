@@ -27,6 +27,7 @@ import Profile from "./pages/profile/Profile";
 // ✅ Import AdminLayout
 
 import "./app.scss";
+import Chatbot from "./components/chatBot/Chatbot";
 
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const Layout = () => (
     <Navbar />
     <Outlet />
     <Footer />
+    <Chatbot/>
   </div>
 );
 
