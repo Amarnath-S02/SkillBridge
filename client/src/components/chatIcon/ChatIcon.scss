@@ -1,0 +1,21 @@
+.chat-icon {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #4f46e5; // Indigo-600
+  color: white;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #4338ca; // Indigo-700
+  }
+
+  svg {
+    display: block;
+  }
+}

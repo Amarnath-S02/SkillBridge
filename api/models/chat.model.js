@@ -1,4 +1,3 @@
-
 import mongoose from 'mongoose';
 
 const messageSchema = new mongoose.Schema({
@@ -9,7 +8,7 @@ const messageSchema = new mongoose.Schema({
 const chatSessionSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   messages: [messageSchema],
-  createdAt: { type: Date, default: Date.now, expires: '1h' } // auto deletes in 1hr
+  createdAt: { type: Date, default: Date.now, expires: '1h' }
 });
 
 export default mongoose.model('ChatSession', chatSessionSchema);

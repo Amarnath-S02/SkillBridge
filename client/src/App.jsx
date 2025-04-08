@@ -24,11 +24,10 @@ import AdminLogin from "./pages/adminDashboard/adminLogin";
 import Blog from "./pages/blog/Blog";
 import BecomeSeller from "./pages/BecomeSeller/BecomeSeller";
 import Profile from "./pages/profile/Profile";
-// ✅ Import AdminLayout
-
-import "./app.scss";
 import Chatbot from "./components/chatBot/Chatbot";
+import ChatIcon from "./components/chatIcon/ChatIcon";
 
+import "./app.scss"; // styles should be after imports
 
 const queryClient = new QueryClient();
 
@@ -37,7 +36,7 @@ const Layout = () => (
     <Navbar />
     <Outlet />
     <Footer />
-    <Chatbot/>
+    <ChatIcon /> {/* Floating icon available on all pages */}
   </div>
 );
 
@@ -58,16 +57,16 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/pay/:id", element: <Pay /> },
       { path: "/success", element: <Success /> },
-      {path:"/blog", element:<Blog />},
-      {path:"/become-seller", element:<BecomeSeller/>},
-      {path:"/profile/:id" ,element:<Profile />} 
+      { path: "/blog", element: <Blog /> },
+      { path: "/become-seller", element: <BecomeSeller /> },
+      { path: "/profile/:id", element: <Profile /> },
+      { path: "/chatbot", element: <Chatbot /> }, // ✅ Optional full page chatbot
     ],
   },
   {
     path: "/admin",
-    element: <AdminDashboard  />, // ✅ Wrap admin pages with AdminLayout
+    element: <AdminDashboard />,
     children: [
-   // ✅ Default page
       { path: "users", element: <Users /> },
       { path: "services", element: <Services /> },
       { path: "settings", element: <Settings /> },
@@ -75,7 +74,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin/login",
-    element: <AdminLogin />, // ✅ Separate admin login page
+    element: <AdminLogin />,
   },
 ]);
 
