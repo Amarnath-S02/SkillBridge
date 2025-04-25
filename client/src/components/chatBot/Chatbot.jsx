@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Chatbot.scss';
 
-const Chatbot = ({ userId, userType }) => {
+const Chatbot = () => {
+  const userData = JSON.parse(localStorage.getItem('currentUser'));
+  const userId = userData?._id;
+  const userType = userData?.isSeller ? 'isSeller' : 'Client';
+
   const [messages, setMessages] = useState([
     { from: 'bot', text: 'Hi! I’m SkillBridge AI. How can I help you today?' }
   ]);
@@ -35,18 +39,59 @@ const Chatbot = ({ userId, userType }) => {
   };
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    const fetchHistory = async () => {
+      try {
+        const res = await axios.get(`http://localhost:3000/api/chat/${userId}`, {
+          withCredentials: true,
+        });
+  
+        const history = res.data.messages.map(msg => ({
+          from: msg.role === 'user' ? 'user' : 'bot',
+          text: msg.content,
+          timestamp: msg.timestamp,
+        }));
+  
+        setMessages([
+          { from: 'bot', text: 'Hi! I’m SkillBridge AI. How can I help you today?' },
+          ...history
+        ]);
+      } catch (err) {
+        console.error("❌ Error fetching chat history:", err.message);
+      }
+    };
+  
+    fetchHistory();
+  }, []);
+  const handleReset = async () => {
+    try {
+      await axios.delete(`http://localhost:3000/api/chat/${userId}`, {
+        withCredentials: true,
+      });
+      setMessages([
+        { from: 'bot', text: 'Hi! I’m SkillBridge AI. How can I help you today?' }
+      ]);
+    } catch (err) {
+      console.error("❌ Error resetting chat:", err.message);
+    }
+  };
+  
+  
 
   return (
     <div className="chatbot">
-      <h3 className="chatbot__title">SkillBridge AI</h3>
       <div className="chatbot__messages">
-        {messages.map((msg, i) => (
+      {messages.map((msg, i) => (
           <div key={i} className={`chatbot__message ${msg.from}`}>
+            <span className="chatbot__sender">{msg.from === 'user' ? 'You' : 'SkillBridge AI'}</span>
             <span className="chatbot__bubble">{msg.text}</span>
+            {msg.timestamp && (
+              <span className="chatbot__timestamp">
+                {new Date(msg.timestamp).toLocaleTimeString()}
+              </span>
+            )}
           </div>
         ))}
+
         <div ref={messagesEndRef} />
       </div>
       <div className="chatbot__input-area">
@@ -61,6 +106,10 @@ const Chatbot = ({ userId, userType }) => {
         <button className="chatbot__send-btn" onClick={sendMessage}>
           Send
         </button>
+        <button className="chatbot__reset-btn" onClick={handleReset}>
+        Reset
+      </button>
+
       </div>
     </div>
   );

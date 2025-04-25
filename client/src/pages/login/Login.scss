@@ -110,5 +110,21 @@
         cursor: not-allowed;
       }
     }
+
+    .new-user {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 10px;
+
+      span {
+        color: #007bff;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+          color: #0056b3;
+        }
+      }
+    }
   }
 }

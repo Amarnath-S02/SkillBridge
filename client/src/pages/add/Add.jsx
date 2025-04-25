@@ -97,11 +97,11 @@ const Add = () => {
               <option value="graphic & Design">Graphic & Design</option>
 
               <option value="Video & Animation">Video & Animation</option>
-              <option value="Writing-Translation">Writing & Translation</option>
-              <option value="Ai-Services">AI Services</option>
-              <option value="Digital-Marketing">Digital Marketing</option>
-              <option value="Music-Audio">Music & Audio</option>
-              <option value="Programming-Tech">Programming & Tech</option>
+              <option value="Writing & Translation">Writing & Translation</option>
+              <option value="Ai & Services">AI Services</option>
+              <option value="Digital Marketing">Digital Marketing</option>
+              <option value="Music & Audio">Music & Audio</option>
+              <option value="Programming & Tech">Programming & Tech</option>
               <option value="Business">Business</option>
               <option value="Lifestyle">Lifestyle</option>
             </select>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Skeleton from "react-loading-skeleton"; // Import Skeleton
+import "react-loading-skeleton/dist/skeleton.css"; // Import the default skeleton styles
 import "./Services.scss";
 
 const categories = [
@@ -126,7 +128,11 @@ const Services = () => {
       </div>
 
       {loading ? (
-        <p>Loading...</p>
+        <div className="skeleton-loading">
+          <Skeleton height={40} width="100%" style={{ marginBottom: "10px" }} />
+          <Skeleton height={40} width="100%" style={{ marginBottom: "10px" }} />
+          <Skeleton height={40} width="100%" style={{ marginBottom: "10px" }} />
+        </div>
       ) : (
         <div className="services-list">
           <table>

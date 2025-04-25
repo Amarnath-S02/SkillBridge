@@ -1,18 +1,15 @@
 import React from "react";
 import "./Gig.scss";
 import { Slider } from "infinite-react-carousel/lib";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
 import Reviews from "../../components/reviews/Reviews";
- import { useNavigate } from "react-router-dom";
 
 function Gig() {
- 
-
-  
   const { id } = useParams();
-
+  const navigate = useNavigate();
+  
   // Fetch gig details
   const { isLoading, error, data } = useQuery({
     queryKey: ["gig", id],
@@ -38,58 +35,53 @@ function Gig() {
     },
     enabled: !!userId, // Fetch only if userId is available
   });
- 
-const navigate = useNavigate(); // Initialize navigation
 
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-const handleContact = async () => {
-  if (!currentUser) {
-    alert("Please log in to contact the seller.");
-    return;
-  }
-
-  const sellerId = data?.userId;
-  const buyerId = currentUser?._id;
-  if (!sellerId || !buyerId) return;
-
-  const conversationId = sellerId + buyerId; // Ensure IDs are valid
-
-  try {
-    // Check if conversation already exists
-    const res = await newRequest.get(`/conversations/single/${conversationId}`);
-    console.log("Existing conversation found:", res.data);
-    navigate(`/message/${res.data.id}`);
-  } catch (err) {
-    if (err.response && err.response.status === 404) {
-      // Conversation does not exist, create a new one
-      try {
-        const res = await newRequest.post(`/conversations/`, {
-          id: conversationId,  // Ensure consistency with backend schema
-          sellerId: sellerId,
-          buyerId: buyerId,
-        });
-
-        console.log("New conversation created:", res.data);
-        navigate(`/message/${res.data.id}`);
-      } catch (createErr) {
-        console.error("Error creating conversation:", createErr);
-        alert("Failed to create conversation. Please try again later.");
-      }
-    } else {
-      console.error("Error fetching conversation:", err);
-      alert("Error checking conversation. Please try again later.");
+  const handleContact = async () => {
+    if (!currentUser) {
+      alert("Please log in to contact the seller.");
+      return;
     }
-  }
-};
 
+    const sellerId = data?.userId;
+    const buyerId = currentUser?._id;
+    if (!sellerId || !buyerId) return;
 
+    const conversationId = sellerId + buyerId; // Ensure IDs are valid
 
+    try {
+      // Check if conversation already exists
+      const res = await newRequest.get(`/conversations/single/${conversationId}`);
+      console.log("Existing conversation found:", res.data);
+      navigate(`/message/${res.data.id}`);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        // Conversation does not exist, create a new one
+        try {
+          const res = await newRequest.post(`/conversations/`, {
+            id: conversationId,  // Ensure consistency with backend schema
+            sellerId: sellerId,
+            buyerId: buyerId,
+          });
+
+          console.log("New conversation created:", res.data);
+          navigate(`/message/${res.data.id}`);
+        } catch (createErr) {
+          console.error("Error creating conversation:", createErr);
+          alert("Failed to create conversation. Please try again later.");
+        }
+      } else {
+        console.error("Error fetching conversation:", err);
+        alert("Error checking conversation. Please try again later.");
+      }
+    }
+  };
 
   // Filter orders to count active ("pending") and completed projects
   const sellerOrders = orders || [];
   const pendingOrders = sellerOrders.filter((order) => order.status === "pending").length;
   const completedOrders = sellerOrders.filter((order) => order.status === "completed").length;
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   return (
     <div className="gig">
@@ -183,22 +175,26 @@ const handleContact = async () => {
                 </div>
               ))}
 
-      <div className="details-row">
-              <div className="item">
-              <img src="/img/clock.png" alt="" />
-              <span>{data.deliveryTime} Days Delivery</span>
-            </div>
-            <div className="item">
-              <img src="/img/recycle.png" alt="" />
-              <span>{data.revisionNumber} Revisions</span>
-            </div>
-       </div>    
+              <div className="details-row">
+                <div className="item">
+                  <img src="/img/clock.png" alt="" />
+                  <span>{data.deliveryTime} Days Delivery</span>
+                 
+                  <img src="/img/recycle.png" alt="" />
+                  <span>{data.revisionNumber} Revisions</span>
+                </div>
+               
+              </div>    
             </div>
 
-            {currentUser && currentUser._id !== data.userId && (
-              <Link to={`/pay/${id}`}>
-                <button>Continue</button>
-              </Link>
+            {currentUser ? (
+              currentUser._id !== data.userId && (
+                <Link to={`/pay/${id}`}>
+                  <button>Continue</button>
+                </Link>
+              )
+            ) : (
+              <button onClick={() => navigate("/login")}>Continue</button>
             )}
           </div>
         </div>

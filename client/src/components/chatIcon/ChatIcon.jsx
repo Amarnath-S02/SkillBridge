@@ -1,22 +1,33 @@
-// components/ChatIcon.jsx
-import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { MessageCircle } from 'lucide-react';
 import './ChatIcon.scss';
 
-const ChatIcon = () => {
-  const navigate = useNavigate();
+const ChatIcon = ({ onClick }) => {
   const location = useLocation();
-
-  // Don't show icon on login or register pages
   const hideOnRoutes = ['/login', '/register'];
-  if (hideOnRoutes.includes(location.pathname)) return null;
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUser'));
+
+  // Update currentUser state when localStorage changes (polling every 1s)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const storedUser = localStorage.getItem('currentUser');
+      if (storedUser !== currentUser) {
+        setCurrentUser(storedUser);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [currentUser]);
+
+  if (hideOnRoutes.includes(location.pathname) || !currentUser || currentUser === 'null') {
+    return null;
+  }
 
   return (
-    <div className="chat-icon" onClick={() => navigate('/chatbot')} title="Chat with SkillBridge AI">
-    <MessageCircle size={24} />
-  </div>
-  
+    <div className="chat-icon" onClick={onClick} title="Chat with SkillBridge AI">
+      <MessageCircle size={24} />
+    </div>
   );
 };
 

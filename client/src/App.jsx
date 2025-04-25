@@ -26,7 +26,7 @@ import BecomeSeller from "./pages/BecomeSeller/BecomeSeller";
 import Profile from "./pages/profile/Profile";
 import Chatbot from "./components/chatBot/Chatbot";
 import ChatIcon from "./components/chatIcon/ChatIcon";
-
+import FloatingChatbot from "./components/chatBot/FloatingChatbot";
 import "./app.scss"; // styles should be after imports
 
 const queryClient = new QueryClient();
@@ -36,7 +36,7 @@ const Layout = () => (
     <Navbar />
     <Outlet />
     <Footer />
-    <ChatIcon /> {/* Floating icon available on all pages */}
+    <FloatingChatbot />
   </div>
 );
 

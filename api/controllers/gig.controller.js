@@ -1,4 +1,3 @@
-
 import Gig from "../models/gig.model.js";
 import createError from "../utils/createError.js";
 import User from "../models/user.model.js";
@@ -59,41 +58,62 @@ export const deleteGigByAdmin = async (req, res, next) => {
 export const getGigs = async (req, res, next) => {
   const q = req.query;
 
-  // ✅ Log query params for debugging
-  console.log("Received Query Params:", q);
+  // Log incoming query for debugging
+  // console.log("🔍 Received Query Params:", q);
 
-  // ✅ Convert min/max to numbers and set defaults
-  const min = q.min ? Number(q.min) : 0; // Default min: 0
-  const max = q.max ? Number(q.max) : Infinity; // Default max: Infinity
+  // Convert min/max to numbers if present, or default
+  const min = q.min !== undefined ? Number(q.min) : 0;
+  const max = q.max !== undefined ? Number(q.max) : Infinity;
 
-  console.log("Processed Min:", min, "Max:", max); // Debugging
+  if (isNaN(min) || isNaN(max)) {
+    return res.status(400).json({ error: "Invalid min/max price range" });
+  }
 
-  // ✅ Apply filters
-  const filters = {
-    ...(q.userId && { userId: q.userId }),
-    ...(q.cat && { cat: q.cat }),
-    ...(q.search && { title: { $regex: q.search, $options: "i" } }),
-    ...(q.min || q.max ? { price: { $gte: min, $lte: max } } : {}), // Apply only if min/max exist
+  // ✅ Category slug-to-label mapping
+  const categoryMap = {
+    "graphic-design": "Graphics & Design",
+    "video-animation": "Video & Animation",
+    "writing-translation": "Writing & Translation",
+    "ai-services": "AI Services",
+    "digital-marketing": "Digital Marketing",
+    "music-audio": "Music & Audio",
+    "programming-tech": "Programming & Tech",
+    "business": "Business",
+    "lifestyle": "Lifestyle",
   };
 
-  console.log("Final Filters Applied:", JSON.stringify(filters, null, 2)); // Debugging
+  // Normalize category from slug (if provided)
+  const rawCat = q.cat;
+  const mappedCat = rawCat ? categoryMap[rawCat] || rawCat : undefined;
+
+  // Build MongoDB filters dynamically
+  const filters = {
+    ...(q.userId && { userId: q.userId }),
+    ...(mappedCat && { cat: mappedCat }),
+    ...(q.search && { title: { $regex: q.search, $options: "i" } }),
+    ...(q.min !== undefined || q.max !== undefined
+      ? { price: { $gte: min, $lte: max } }
+      : {}),
+  };
+
+  // Determine sort field safely
+  const sortField = q.sort === "sales" || q.sort === "createdAt" ? q.sort : "createdAt";
+
+  // console.log("✅ Final Filters:", filters);
+  // console.log("✅ Sort Field:", sortField);
 
   try {
     const gigs = await Gig.find(filters)
       .populate("userId", "username img")
-      .sort({ [q.sort]: -1 });
+      .sort({ [sortField]: -1 });
 
-    console.log("Number of gigs found:", gigs.length);
-
+    // console.log("✅ Number of gigs returned:", gigs.length);
     res.status(200).json(gigs);
   } catch (err) {
-    console.error("Error fetching gigs:", err);
+    console.error("❌ Error fetching gigs:", err);
     next(err);
   }
 };
-
-
-
 
 
 export const getAllGigs = async (req, res, next) => {
@@ -104,5 +124,3 @@ export const getAllGigs = async (req, res, next) => {
     next(createError(500, "Error fetching gigs"));
   }
 };
-
-

@@ -38,30 +38,34 @@ const Reviews = ({ gigId }) => {
       alert(error.response?.data?.message || "Failed to submit review.");
     },
   });
-  
 
   const [rating, setRating] = useState(0);
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false); // Track submission attempt
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const desc = e.target[0].value.trim(); // Ensure description is not empty
-  
+
     if (!desc || rating === 0) {
       alert("Please enter a review and select a rating!");
       return;
     }
-  
-    mutation.mutate(
-    { gigId, desc, star: rating },
-    {
-      onSuccess: () => {
-        e.target[0].value = ""; // Reset input field
-        setRating(0); // Reset rating selection
-      },
+
+    setAttemptedSubmit(true); // Mark as attempted submission
+
+    if (hasPurchased) {
+      mutation.mutate(
+        { gigId, desc, star: rating },
+        {
+          onSuccess: () => {
+            e.target[0].value = ""; // Reset input field
+            setRating(0); // Reset rating selection
+            setAttemptedSubmit(false); // Reset submission attempt status
+          },
+        }
+      );
     }
-  );
   };
-  
 
   return (
     <div className="reviews">
@@ -75,27 +79,31 @@ const Reviews = ({ gigId }) => {
       )}
 
       <div className="add">
-        <h3>Add a review</h3>
         {isCheckingPurchase ? (
           <p className="loading">Checking purchase status...</p>
-        ) : hasPurchased ? (
-          <form className="addForm" onSubmit={handleSubmit}>
-            <input type="text" placeholder="Write your opinion..." className="review-input" />
-            <div className="stars">
-              {[1, 2, 3, 4, 5].map((num) => (
-                <span
-                  key={num}
-                  onClick={() => setRating(num)}
-                  className={num <= rating ? "star active" : "star"}
-                >
-                  ★
-                </span>
-              ))}
-            </div>
-            <button className="submit-button">Send</button>
-          </form>
         ) : (
-          <p className="warning">⚠ You must purchase this gig before leaving a review.</p>
+          <>
+            <h3>Add a review</h3>
+            {attemptedSubmit && !hasPurchased ? (
+              <p className="warning">⚠ You must purchase this service before leaving a review.</p>
+            ) : (
+              <form className="addForm" onSubmit={handleSubmit}>
+                <input type="text" placeholder="Write your opinion..." className="review-input" />
+                <div className="stars">
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <span
+                      key={num}
+                      onClick={() => setRating(num)}
+                      className={num <= rating ? "star active" : "star"}
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+                <button className="submit-button">Send</button>
+              </form>
+            )}
+          </>
         )}
       </div>
     </div>

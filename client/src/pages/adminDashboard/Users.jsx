@@ -29,7 +29,6 @@ const Users = () => {
   const removeUser = async (id) => {
     try {
       const token = localStorage.getItem("adminToken");
-
       if (!token) {
         console.error("No access token found!");
         return;
@@ -90,10 +89,29 @@ const Users = () => {
         onChange={handleSearch}
         className="search-input"
       />
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="users-list">
+      <div className="users-list">
+        {loading ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...Array(5)].map((_, i) => (
+                <tr key={i}>
+                  <td><div className="skeleton skeleton-text" /></td>
+                  <td><div className="skeleton skeleton-text" /></td>
+                  <td><div className="skeleton skeleton-text" /></td>
+                  <td><div className="skeleton skeleton-btn" /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
           <table>
             <thead>
               <tr>
@@ -121,8 +139,8 @@ const Users = () => {
               ))}
             </tbody>
           </table>
-        </div>
-      )}
+        )}
+      </div>
 
       {confirmDialog.show && (
         <div className="modal-overlay">

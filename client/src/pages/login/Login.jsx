@@ -18,14 +18,14 @@ function Login() {
       setError("Username and password cannot be empty.");
       return false;
     }
-   
+
     setError(""); // Clear any previous errors
     return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
@@ -77,6 +77,10 @@ function Login() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Signing in..." : "Continue"}
         </button>
+
+        <p className="new-user">
+          New user? <span onClick={() => navigate("/register")}>Create an account</span>
+        </p>
       </form>
     </div>
   );
