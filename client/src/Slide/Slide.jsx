@@ -1,5 +1,5 @@
 import React from 'react';
-import './slide.scss';
+import './Slide.scss';
 import Slider from "infinite-react-carousel";
 
 import { cards } from '../data';

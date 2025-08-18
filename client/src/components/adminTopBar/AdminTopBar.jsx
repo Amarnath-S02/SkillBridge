@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
-import "./AdminTopbar.scss";
+import "./AdminTopBar.scss";
 
 const AdminTopbar = () => {
   const navigate = useNavigate(); // ✅ Define navigate

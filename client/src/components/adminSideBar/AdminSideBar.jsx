@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Users, Briefcase, Settings, Home } from "lucide-react";
-import "./AdminSidebar.scss";
-
+import "./AdminSideBar.scss";
 const AdminSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
