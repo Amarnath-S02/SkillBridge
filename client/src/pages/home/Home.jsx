@@ -5,7 +5,7 @@ import TrustedBy from "../../components/trustedBy/TrustedBy";
 import Slide from "../../Slide/Slide";
 import { cards, projects } from "../../data";
 import CatCard from "../../components/catCard/CatCard";
-import ProjectCard from "../../components/projectCard2/ProjectCard";
+
 
 const Home = () => {
   return (
