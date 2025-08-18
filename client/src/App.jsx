@@ -21,7 +21,7 @@ import AdminDashboard from "./pages/adminDashboard/AdminDashboard";
 import Users from "./pages/adminDashboard/Users";
 import Services from "./pages/adminDashboard/Services";
 import Settings from "./pages/adminDashboard/Settings";
-import AdminLogin from "./pages/adminDashboard/adminLogin";
+import AdminLogin from "./pages/adminDashboard/AdminLogin";
 import Blog from "./pages/blog/Blog";
 import BecomeSeller from "./pages/BecomeSeller/BecomeSeller";
 import Profile from "./pages/profile/Profile";
