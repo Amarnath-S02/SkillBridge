@@ -13,18 +13,30 @@ import reviewRoute from "./routes/review.route.js";
 import authRoute from "./routes/auth.route.js";
 import chatRoute from "./routes/chat.route.js";
 
-
-dotenv.config();  // ✅ Load .env variables before using them
+dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+// ✅ CORS for local dev and deployed frontend
+const allowedOrigins = [
+  "http://localhost:5173", // Local frontend
+  process.env.FRONTEND_URL   // Deployed frontend URL from .env
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); // allow Postman or server-to-server requests
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = `The CORS policy does not allow access from the specified Origin.`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(cookieParser());
-
-
-
-
 
 // ✅ Database Connection
 const connect = async () => {
@@ -54,7 +66,8 @@ app.use((err, req, res, next) => {
 });
 
 // ✅ Start Server
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
   connect();
-  console.log("🚀 Server is running on port 3000!");
+  console.log(`🚀 Server is running on port ${PORT}!`);
 });
