@@ -1,5 +1,5 @@
 import React from 'react';
-import './featured.scss';
+import './Featured.scss';
 import  { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
