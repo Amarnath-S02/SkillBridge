@@ -1,5 +1,5 @@
 import React from "react";
-import "./home.scss";
+import "./Home.scss";
 import Featured from "../../components/Featured/Featured";
 import TrustedBy from "../../components/trustedBy/TrustedBy";
 import Slide from "../../Slide/Slide";
