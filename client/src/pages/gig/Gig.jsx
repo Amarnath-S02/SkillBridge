@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
 import Reviews from "../../components/reviews/Reviews";
 
+
 function Gig() {
   const { id } = useParams();
   const navigate = useNavigate();

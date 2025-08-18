@@ -1,6 +1,7 @@
 import React from 'react';
 import './slide.scss';
-import Slider from 'infinite-react-carousel';
+import Slider from "infinite-react-carousel";
+
 import { cards } from '../data';
 import CatCard from '../components/catCard/CatCard';
 

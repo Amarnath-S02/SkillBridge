@@ -1,6 +1,7 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
@@ -27,6 +28,7 @@ import Profile from "./pages/profile/Profile";
 import Chatbot from "./components/chatBot/Chatbot";
 import ChatIcon from "./components/chatIcon/ChatIcon";
 import FloatingChatbot from "./components/chatBot/FloatingChatbot";
+
 import "./app.scss"; // styles should be after imports
 
 const queryClient = new QueryClient();
