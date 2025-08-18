@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import './Chatbot.scss';
+import "./ChatBot.scss"
 
 const Chatbot = () => {
   const userData = JSON.parse(localStorage.getItem('currentUser'));
