@@ -14,12 +14,11 @@ const Home = () => {
       <TrustedBy />
 
       {/* Top Cards Slider */}
-    <Slide slidesToShow={5} arrowsScroll={3}>
-  {cards.map((card) => (
-    <CatCard key={card.id} item={card} />
-  ))}
-</Slide>
-
+      <Slide slidesToShow={5} arrowsScroll={3}>
+        {cards.map((card) => (
+          <CatCard key={card.id} item={card} />
+        ))}
+      </Slide>
 
       <div className="features">
         <div className="container">
