@@ -42,7 +42,7 @@ const Chatbot = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/chat/${userId}`, {
+        const res = await newRequest.get(`/chat/${userId}`, {
           withCredentials: true,
         });
   
@@ -65,7 +65,7 @@ const Chatbot = () => {
   }, []);
   const handleReset = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/chat/${userId}`, {
+      await newRequest.delete(`/chat/${userId}`, {
         withCredentials: true,
       });
       setMessages([

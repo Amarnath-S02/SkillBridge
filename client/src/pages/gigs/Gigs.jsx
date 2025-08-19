@@ -4,8 +4,8 @@ import GigCard from "../../components/gigCard/GigCard";
 import { useQuery } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
 import { useLocation } from "react-router-dom";
-import Skeleton from "react-loading-skeleton"; // Import Skeleton component
-import "react-loading-skeleton/dist/skeleton.css"; // Import skeleton styles
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function Gigs() {
   const [sort, setSort] = useState("sales");
@@ -28,11 +28,6 @@ function Gigs() {
     return `?${params.toString()}`;
   };
 
-  // Determine if filters or sort are applied
-  const isFilterOrSortApplied = () => {
-    return minPrice !== "" || maxPrice !== "" || sort !== "sales";
-  };
-
   // Fetch gigs with React Query
   const { isLoading, error, data } = useQuery({
     queryKey: ["gigs", sort, minPrice, maxPrice, search],
@@ -41,7 +36,13 @@ function Gigs() {
       const endpoint = `/gigs/getSortedGigs${finalQuery}`;
       console.log("🔍 Fetching gigs from:", endpoint);
       const res = await newRequest.get(endpoint);
-      return res.data;
+
+      // Make sure to return an array
+      if (Array.isArray(res.data)) return res.data;
+      // If backend returns object like { gigs: [...] }
+      if (res.data.gigs && Array.isArray(res.data.gigs)) return res.data.gigs;
+
+      return []; // fallback to empty array
     },
   });
 
@@ -85,22 +86,22 @@ function Gigs() {
         </div>
 
         <div className="cards">
-          {isLoading
-            ? (
-              <>
-                {/* Skeleton loader for the cards */}
-                {[...Array(6)].map((_, index) => (
-                  <div key={index} className="gig-card">
-                    <Skeleton height={200} width={300} />
-                    <Skeleton width={200} />
-                    <Skeleton width={150} />
-                  </div>
-                ))}
-              </>
-            )
-            : error
-            ? `Error: ${error.message}`
-            : data.map((gig) => <GigCard key={gig._id} item={gig} />)}
+          {isLoading ? (
+            // Skeleton loader while fetching
+            [...Array(6)].map((_, index) => (
+              <div key={index} className="gig-card">
+                <Skeleton height={200} width={300} />
+                <Skeleton width={200} />
+                <Skeleton width={150} />
+              </div>
+            ))
+          ) : error ? (
+            <span className="error">Error: {error.message}</span>
+          ) : data.length === 0 ? (
+            <span>No gigs found.</span>
+          ) : (
+            data.map((gig) => <GigCard key={gig._id} item={gig} />)
+          )}
         </div>
       </div>
     </div>
