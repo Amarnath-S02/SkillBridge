@@ -21,6 +21,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173", // local dev
   "https://skillbridge-green.vercel.app", // deployed frontend
+  "skillbridge-q5c0ia1wk-amarnaths-projects-925337c0.vercel.app"
 ];
 
 app.use(cors({
