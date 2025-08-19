@@ -13,30 +13,33 @@ import reviewRoute from "./routes/review.route.js";
 import authRoute from "./routes/auth.route.js";
 import chatRoute from "./routes/chat.route.js";
 
-dotenv.config();
+
+dotenv.config();  // ✅ Load .env variables before using them
 
 const app = express();
 
-// ✅ CORS for local dev and deployed frontend
 const allowedOrigins = [
-  // Local frontend
-  process.env.FRONTEND_URL   // Deployed frontend URL from .env
+  "http://localhost:5173", // local dev
+  "https://skillbridge-green.vercel.app", // deployed frontend
 ];
 
 app.use(cors({
   origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow Postman or server-to-server requests
+    if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = `The CORS policy does not allow access from the specified Origin.`;
-      return callback(new Error(msg), false);
+      return callback(new Error("Not allowed by CORS"), false);
     }
     return callback(null, true);
   },
-  credentials: true
+  credentials: true,
 }));
 
 app.use(express.json());
 app.use(cookieParser());
+
+
+
+
 
 // ✅ Database Connection
 const connect = async () => {
@@ -66,8 +69,7 @@ app.use((err, req, res, next) => {
 });
 
 // ✅ Start Server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(3000, () => {
   connect();
-  console.log(`🚀 Server is running on port ${PORT}!`);
+  console.log("🚀 Server is running on port 3000!");
 });
