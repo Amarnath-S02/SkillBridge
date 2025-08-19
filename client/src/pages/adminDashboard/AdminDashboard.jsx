@@ -3,6 +3,7 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import AdminSidebar from "../../components/adminSideBar/AdminSideBar";
 import AdminTopbar from "../../components/adminTopBar/AdminTopBar";
 import axios from "axios";
+import newRequest from "../../utils/newRequest";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell } from "recharts";
 import "./AdminDashboard.scss";
 
@@ -29,8 +30,8 @@ const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         const [userRes, serviceRes] = await Promise.all([
-          axios.get("http://localhost:3000/api/users"),
-          axios.get("http://localhost:3000/api/gigs"),
+          newRequest.get("users"),
+          newRequest.get("gigs"),
         ]);
 
         const users = userRes.data.filter(user => user.isAdmin !== true);

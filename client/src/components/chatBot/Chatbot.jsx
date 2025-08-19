@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import newRequest from "../../utils/newRequest";
 import "./ChatBot.scss"
 
 const Chatbot = () => {
@@ -21,7 +22,7 @@ const Chatbot = () => {
     setInput('');
 
     try {
-      const res = await axios.post('http://localhost:3000/api/chat', {
+      const res = await newRequest.post('chat', {
         userId,
         message: input,
         userType,

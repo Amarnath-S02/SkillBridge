@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import newRequest from "../../utils/newRequest";
 import Skeleton from "react-loading-skeleton"; // Import Skeleton
 import "react-loading-skeleton/dist/skeleton.css"; // Import the default skeleton styles
 import "./Services.scss";
@@ -29,13 +29,13 @@ const Services = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/gigs");
+        const response = await newRequest.get("gigs");
         setServices(response.data);
         setFilteredServices(response.data);
 
         const userIds = [...new Set(response.data.map((s) => s.userId))];
         const userResponses = await Promise.all(
-          userIds.map((id) => axios.get(`http://localhost:3000/api/users/${id}`))
+          userIds.map((id) => newRequest.get(`users/${id}`))
         );
 
         const usersData = userResponses.reduce((acc, res) => {
@@ -93,7 +93,7 @@ const Services = () => {
     if (!selectedService) return;
 
     try {
-      await axios.delete(`http://localhost:3000/api/gigs/admin/delete/${selectedService._id}`);
+      await newRequest.delete(`gigs/admin/delete/${selectedService._id}`);
       setFilteredServices(filteredServices.filter(service => service._id !== selectedService._id));
       setServices(services.filter(service => service._id !== selectedService._id));
     } catch (error) {

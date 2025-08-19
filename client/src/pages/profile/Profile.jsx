@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import newRequest from "../../utils/newRequest";
 import "./Profile.scss"; // Assuming you have a Profile.scss file
 
 const Profile = () => {
@@ -21,7 +21,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/users/${id}`, {
+        const res = await newRequest.get(`users/${id}`, {
           withCredentials: true,
         });
         setUser(res.data);
@@ -58,7 +58,7 @@ const Profile = () => {
     formData.append("image", file);
 
     try {
-      const res = await axios.post("http://localhost:3000/api/upload", formData, {
+      const res = await newRequest.post("upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
@@ -71,7 +71,7 @@ const Profile = () => {
 
   const handleUpdate = async () => {
     try {
-      const res = await axios.put(`http://localhost:3000/api/users/${id}`, formData, {
+      const res = await newRequest.put(`users/${id}`, formData, {
         withCredentials: true,
       });
       setUser(res.data);

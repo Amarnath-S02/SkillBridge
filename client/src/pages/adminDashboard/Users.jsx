@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import newRequest from "../../utils/newRequest";
+
 import "./Users.scss";
 
 const Users = () => {
@@ -15,7 +16,7 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/users");
+      const response = await newRequest.get("users");
       const nonAdminUsers = response.data.filter((user) => !user.isAdmin);
       setUsers(nonAdminUsers);
       setFilteredUsers(nonAdminUsers);
@@ -34,7 +35,7 @@ const Users = () => {
         return;
       }
 
-      await axios.delete(`http://localhost:3000/api/users/${id}`, {
+      await newRequest.delete(`users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

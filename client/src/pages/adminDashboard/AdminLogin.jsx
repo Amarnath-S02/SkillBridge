@@ -1,4 +1,4 @@
-import axios from "axios";
+import newRequest from "../../utils/newRequest";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // For password visibility toggle
@@ -15,8 +15,8 @@ const AdminLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/admin/login",
+      const res = await  newRequest.post(
+        "login",
         { email, password },
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
