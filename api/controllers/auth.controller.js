@@ -1,6 +1,7 @@
 import User from "../models/user.model.js"; 
 import createError from "../utils/createError.js";
 import bcrypt from "bcryptjs";
+
 import jwt from "jsonwebtoken";
 
 // ✅ User Registration
