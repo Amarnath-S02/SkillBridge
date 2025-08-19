@@ -19,7 +19,7 @@ const app = express();
 
 // ✅ CORS for local dev and deployed frontend
 const allowedOrigins = [
-  "http://localhost:5173", // Local frontend
+  // Local frontend
   process.env.FRONTEND_URL   // Deployed frontend URL from .env
 ];
 
