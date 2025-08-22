@@ -20,7 +20,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173", // local dev
-  "https://skillbridge-green.vercel.app", // deployed frontend
+  "skillbridge-red.vercel.app", // deployed frontend
   
 ];
 
