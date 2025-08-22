@@ -20,25 +20,24 @@ const app = express();
 
 // ✅ CORS Setup
 const allowedOrigins = [
-  "http://localhost:5173",                // local dev
-  "https://skillbridge-green.vercel.app", // old frontend
+  "http://localhost:5173",                // local dev 
   "https://skillbridge-red.vercel.app",   // new frontend
 ];
 
 app.use(cors({
   origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow non-browser requests (Postman, server)
+    if (!origin) return callback(null, true); // allow server/Postman requests
     if (allowedOrigins.includes(origin)) return callback(null, true);
     return callback(new Error("Not allowed by CORS"), false);
   },
   credentials: true, // allow cookies
 }));
 
-// Enable preflight requests for all routes
+// Handle preflight OPTIONS requests
 app.options("*", cors({
   origin: allowedOrigins,
   credentials: true,
-}));
+}))
 
 // ✅ Middleware
 app.use(express.json());
