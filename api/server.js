@@ -18,7 +18,10 @@ dotenv.config(); // Load .env variables
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // frontend origin
+  credentials: true, // allow cookies/auth headers
+}));
 
 // ✅ Middleware
 app.use(express.json());
@@ -44,15 +47,7 @@ app.use("/api/messages", messageRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/chat", chatRoute);
 
-// ✅ Global Error Handler
-app.use((err, req, res, next) => {
-  const errorStatus = err.status || 500;
-  const errorMessage = err.message || "Something went wrong!";
-  if (process.env.NODE_ENV === "development") {
-    console.error(err.stack);
-  }
-  return res.status(errorStatus).json({ success: false, message: errorMessage });
-});
+
 
 // ✅ Start Server after DB connection
 const PORT = process.env.PORT || 3000;
