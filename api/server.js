@@ -18,7 +18,7 @@ dotenv.config(); // Load .env variables
 
 const app = express();
 
-app.use(cors);
+app.use(cors());
 
 // ✅ Middleware
 app.use(express.json());
