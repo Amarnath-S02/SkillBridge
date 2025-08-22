@@ -42,7 +42,8 @@ function Navbar() {
           <span className="dot"></span>
         </div>
         <div className="links">
-        <Link className="link" to="/messages" style={{ color: "white", textDecoration: "none" }}>Messages</Link>
+          {currentUser && (<Link className="link" to="/messages" style={{ color: "white", textDecoration: "none" }}>Messages</Link>)}
+
         <Link className="link" to="/blog" style={{ color: "white", textDecoration: "none" }}><span>Blog</span></Link>
         {currentUser && !currentUser.isSeller && (
           <Link className="link" to="/become-seller" style={{ color: "white", textDecoration: "none" }}>
