@@ -18,10 +18,16 @@ dotenv.config(); // Load .env variables
 
 const app = express();
 
-app.use(cors({
-  origin: "http://localhost:5173", // frontend origin
-  credentials: true, // allow cookies/auth headers
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // local dev
+      "https://skillbridge-1-4xbf.onrender.com", // deployed frontend
+    ],
+    credentials: true,
+  })
+);
+
 
 // ✅ Middleware
 app.use(express.json());
